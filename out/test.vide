@@ -1,0 +1,7 @@
+<Vide>
+body {
+    background:red;
+}
+
+<h1 hi='hi'>hi</h1>
+</Vide>
