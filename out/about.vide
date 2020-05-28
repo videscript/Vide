@@ -1,0 +1,6 @@
+<Vide name='about'>
+h1 {
+    background:blue;
+}
+<h1>hi</h1>
+</Vide>

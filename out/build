@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+let args = process.argv;
+const config = require('./config');
+const css = require('./css');
+const html = require('./html');
+
+console.log('built!');
+return config, css, html;

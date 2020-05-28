@@ -1,0 +1,46 @@
+
+html {
+	margin:0;
+	overflow-y:scroll;
+	scroll-snap-type:y mandatory;
+	overflow-x:hidden;
+}
+
+body {
+	margin:0;
+}
+
+section {
+	height:calc(100vh - 14em);
+	width:100%;
+	margin:0;
+	padding:7em;
+	scroll-snap-align:start;
+}
+
+.sec1 {
+	background-color:#f9d89c;
+}
+
+.sec2 {
+	background-color:#82c4c3;
+}
+
+.sec3 {
+	background-color:#f5a7a7;
+}
+
+h1 {
+	position:relative;
+	top:50%;
+	transform:translate(0,-50%);
+	padding-left:1em;
+	font-size:40px;
+}
+
+p {
+	position:relative;
+	top:53%;
+	transform:translate(0,-50%);
+	padding-left:2.5em;
+}

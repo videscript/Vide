@@ -16,6 +16,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const fs_1 = __importDefault(require("fs"));
     const config_1 = require("./config");
     let cheerio = require('cheerio');
+    const htmlparser2 = require('htmlparser2');
+    console.log('parsing files');
     let cParse = require('transform-css-to-js');
     let hello;
     try {
@@ -36,9 +38,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     if (files.length == 0) {
         throw 'No files for compiling.';
     }
-    let CSS;
-    let dom;
-    let raw;
+    let CSS = [];
+    let dom = [];
+    let raw = [];
     for (let i = 0; i < files.length; i++) {
         let point = files[i];
         let file;
@@ -48,12 +50,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         else {
             file = fs_1.default.readFileSync('./' + point, 'utf-8').trim();
         }
-        const $ = cheerio.load(file);
-        dom = $('Vide *');
-        raw = $;
+        const DOM = htmlparser2.parseDOM(file);
+        const $ = cheerio.load(DOM);
+        dom.push($('Vide *'));
+        $.prototype.name = point;
+        raw.push($);
         let Css = $('Vide').clone().children().remove().end().text().trim();
         let str = cParse(Css);
-        CSS = JSON.parse(str);
+        CSS.push({ name: point, css: JSON.parse(str) });
     }
     exports.Css = CSS;
     exports.Dom = dom;

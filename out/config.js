@@ -17,6 +17,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const path_1 = __importDefault(require("path"));
     const fs_1 = __importDefault(require("fs"));
     let dJSON = require('dirty-json');
+    console.log('Reading config');
     const walkSync = (dir, filelist = []) => {
         fs_1.default.readdirSync(dir).forEach((file) => {
             filelist = fs_1.default.statSync(path_1.default.join(dir, file)).isDirectory()

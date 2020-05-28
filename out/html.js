@@ -12,19 +12,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.headers = void 0;
     const config_1 = require("./config");
     const index_1 = require("./index");
     const fs_1 = __importDefault(require("fs"));
+    console.log('building html');
     const domCollection = [];
     let col;
-    let components;
-    index_1.Dom
-        .get()
-        .forEach((element) => {
-        let attr = JSON.parse(JSON.stringify(element.attribs));
-        let params = Object.keys(element.attribs);
-        params.forEach((data) => {
-            if (element.children.length > 2) {
+    let components = {};
+    let fullHead = [];
+    index_1.Dom.forEach((Dom) => {
+        let Headers = {};
+        index_1.$.forEach(($) => {
+            Dom
+                .get()
+                .forEach((element) => {
+                let attr = JSON.parse(JSON.stringify(element.attribs));
+                let params = Object.keys(element.attribs);
                 col = {
                     attribs: element.attribs,
                     type: element.type,
@@ -32,51 +36,58 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                     innerText: element.children[0].data.trim(),
                     length: element.children.length,
                 };
+                domCollection.push(col);
+                if (col['tag-name'] == 'component') {
+                    if (col.attribs.name == undefined) {
+                        throw 'Expected name attribute instead got undefined';
+                    }
+                    if (col.attribs.type == undefined) {
+                        throw 'Expected type attribute instead got undefined';
+                    }
+                    components[col.attribs.name] = col;
+                }
+            });
+            if ($('Vide').get()[0].attribs.name != undefined) {
+                Headers.name = $('Vide').get()[0].attribs.name;
             }
             else {
-                col = {
-                    attribs: element.attribs,
-                    type: element.type,
-                    'tag-name': element.name,
-                    innerText: index_1.$(`Vide component[name=${element.attribs.name}]`).children().html(),
-                    length: element.children.length,
-                    fullParse: element.children
-                };
+                Headers.name = 'Vide app';
             }
-            domCollection.push(col);
-            if (col['tag-name'] == 'component') {
-                if (col.attribs.name == undefined) {
-                    throw 'Expected name attribute instead got undefined';
-                }
-                if (col.attribs.type == undefined) {
-                    throw 'Expected type attribute instead got undefined';
-                }
-                components[col.attribs.name] = col;
+            const state = config_1.config.outDir + `/${$.prototype.name.split('.vide')[0].split('.vide')[0] || 'html'}.html` || '.' + `/${$.prototype.name.split('.vide')[0] || 'html'}.html`;
+            try {
+                fs_1.default.unlinkSync(state);
             }
-        });
-    });
-    let render = index_1.$('Vide component').remove().end().html();
-    let fullTemp = `
-<!DOCTYPE html>
-<html>
+            catch (err) {
+                let non = null;
+            }
+            $('Vide').get()[0].children[0].data = '';
+            let render = $('Vide component').remove().end().children().html().trim();
+            let fullTemp = `
+        <!DOCTYPE html>
+<html lang="en">
 <head>
-<title>hello</title>
-<link rel="stylesheet" href="css.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${Headers.name || 'Vide app'}</title>
+    <link rel="stylesheet" href="css-${$.prototype.name.split('.vide')[0]}.css">
 </head>
 <body>
-	${render}
+${render}
 </body>
 </html>
 `;
-    if (config_1.config.outDir + '/' == 'undefined/') {
-        fs_1.default.appendFileSync('./html.html', fullTemp);
-    }
-    else {
-        try {
-            fs_1.default.appendFileSync(config_1.config.outDir + '/html.html', fullTemp);
-        }
-        catch (err) {
-            console.log(`${config_1.config.outDir}/ does not exist.`);
-        }
-    }
+            if (config_1.config.outDir + '/' == 'undefined/') {
+                fs_1.default.appendFileSync(`./${$.prototype.name.split('.vide')[0] || 'html'}.html`, fullTemp);
+            }
+            else {
+                try {
+                    fs_1.default.appendFileSync(config_1.config.outDir + `/${$.prototype.name.split('.vide')[0] || 'html'}.html`, fullTemp);
+                }
+                catch (err) {
+                    console.log(`${config_1.config.outDir}/ does not exist.`);
+                }
+            }
+        });
+    });
+    exports.headers = fullHead;
 });

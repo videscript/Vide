@@ -15,38 +15,44 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const index_1 = require("./index");
     const fs_1 = __importDefault(require("fs"));
     const config_1 = require("./config");
+    let pointer;
+    console.log('building css');
     const toK = (str) => str &&
         str
             .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
             .map((x) => x.toLowerCase())
             .join('-');
-    const selectors = Object.keys(index_1.Css);
-    const state = config_1.config.outDir + '/css.css' || '.' + '/css.css';
-    try {
-        fs_1.default.unlinkSync(state);
-    }
-    catch (err) {
-        let non = null;
-    }
-    selectors.forEach(data => {
-        const body = index_1.Css[data];
-        const bodyKeys = Object.keys(index_1.Css[data]);
-        let ruling = '';
-        bodyKeys.forEach((rule) => {
-            let temp = `\t${rule}:${body[rule]};\n`;
-            ruling = ruling.concat(temp);
+    index_1.Css.forEach((css) => {
+        let CSS = css.css;
+        let fname = css.name.split('.vide')[0];
+        //checks for duplicate files & deletes them
+        const state = config_1.config.outDir + '/css-' + fname + '.css' || '.' + '/css-' + fname + '.css';
+        if (fs_1.default.existsSync(config_1.config.outDir + '/css-' + fname + '.css') || fs_1.default.existsSync('.' + '/css-' + fname + '.css')) {
+            fs_1.default.unlinkSync(state);
+        }
+        //builds css
+        let fullTemp;
+        const selectors = Object.keys(CSS);
+        selectors.forEach((data, num) => {
+            const body = CSS[data];
+            const bodyKeys = Object.keys(CSS[data]);
+            let ruling = '';
+            bodyKeys.forEach((rule) => {
+                let temp = `\t${toK(rule)}:${body[rule]};\n`;
+                ruling = ruling.concat(temp);
+            });
+            fullTemp = `\n${data} {\n${ruling}}\n`;
+            if (config_1.config.outDir + '/' == 'undefined/') {
+                fs_1.default.appendFileSync('./css-' + fname + '.css', fullTemp);
+            }
+            else {
+                try {
+                    fs_1.default.appendFileSync(config_1.config.outDir + '/css-' + fname + '.css', fullTemp);
+                }
+                catch (err) {
+                    console.log(`${config_1.config.outDir}/ does not exist.`);
+                }
+            }
         });
-        let fullTemp = `\n${data} {\n${ruling}}\n`;
-        if (config_1.config.outDir + '/' == 'undefined/') {
-            fs_1.default.appendFileSync('./css.css', fullTemp);
-        }
-        else {
-            try {
-                fs_1.default.appendFileSync(config_1.config.outDir + '/css.css', fullTemp);
-            }
-            catch (err) {
-                console.log(`${config_1.config.outDir}/ does not exist.`);
-            }
-        }
     });
 });
