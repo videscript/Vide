@@ -2,6 +2,7 @@
 import path from "path";
 import fs from "fs";
 let dJSON = require('dirty-json');
+console.log('Reading config')
 const walkSync = (dir: any, filelist: Array<any> = []) => {
     fs.readdirSync(dir).forEach((file: string) => {
 

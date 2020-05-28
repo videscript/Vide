@@ -1,6 +1,8 @@
 import fs from 'fs'
 import { config } from './config';
 let cheerio = require('cheerio');
+const htmlparser2 = require('htmlparser2');
+console.log('parsing files')
 let cParse = require('transform-css-to-js');
 let hello: Array<string>;
 try {
@@ -20,9 +22,9 @@ hello.forEach(file => {
 if(files.length == 0) {
     throw 'No files for compiling.'
 }
-let CSS;
-let dom;
-let raw;
+let CSS:Array<any> = [];
+let dom:Array<any> = [];
+let raw:Array<any> = [];
 for (let i = 0; i < files.length; i++) {
     let point: string = files[i]
     let file: string;
@@ -31,12 +33,15 @@ for (let i = 0; i < files.length; i++) {
     } else {
         file = fs.readFileSync('./' + point, 'utf-8').trim()
     }
-    const $ = cheerio.load(file);
-    dom = $('Vide *');
-    raw = $;
+    const DOM = htmlparser2.parseDOM(file);
+    const $ = cheerio.load(DOM);
+    dom.push($('Vide *'));
+    $.prototype.name = point
+    raw.push($);
     let Css = $('Vide').clone().children().remove().end().text().trim();
     let str = cParse(Css);
-    CSS = JSON.parse(str);
+    CSS.push({name:point,css:JSON.parse(str)});
+
 }
 export let Css = CSS;
 

@@ -1,8 +1,19 @@
 #!/usr/bin/env node
-let args = process.argv;
-const config = require('./config');
-const css = require('./css');
-const html = require('./html');
+var simulateTime = 1000;
+setTimeout(function (argument) {
+	var start = new Date();
 
-console.log('built!');
-return config, css, html;
+	let args = process.argv;
+	if (args.includes('-html')) {
+		const html = require('./html');
+	} else if (args.includes('-css')) {
+		const css = require('./css');
+	} else {
+		const config = require('./config');
+		const css = require('./css');
+		const html = require('./html');
+	}
+	// execution time simulated with setTimeout function
+	var end = new Date() - start;
+	console.info('Execution time: %dms', end);
+}, simulateTime);
