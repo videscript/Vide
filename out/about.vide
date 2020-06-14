@@ -3,4 +3,10 @@ h1 {
     background:blue;
 }
 <h1>hi</h1>
+<p>gelllo</p>
+<component name='hi' type='css'>
+h1 {
+    color:red;
+}
+</component>
 </Vide>

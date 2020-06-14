@@ -1,7 +1,7 @@
 import { config } from "./config";
 import { Dom, $ } from "./index";
 import fs from "fs";
-console.log('building html')
+console.log('● building html')
 
 const domCollection: Array<any> = []
 let col: any;
@@ -51,7 +51,9 @@ Dom.forEach((Dom: any) => {
         } catch (err) {
             let non: null = null;
         }
-        $('Vide').get()[0].children[0].data = '';
+        $('Vide').get()[0].children.forEach(element => {
+            element.data = ''
+        });
         let render: string = $('Vide component').remove().end().children().html().trim();
         let fullTemp = `
         <!DOCTYPE html>
@@ -79,3 +81,5 @@ ${render}
     })
 })
 export const headers = fullHead;
+
+export let Components = components;

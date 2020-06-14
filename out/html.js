@@ -12,11 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.headers = void 0;
+    exports.Components = exports.headers = void 0;
     const config_1 = require("./config");
     const index_1 = require("./index");
     const fs_1 = __importDefault(require("fs"));
-    console.log('building html');
+    console.log('● building html');
     const domCollection = [];
     let col;
     let components = {};
@@ -60,7 +60,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             catch (err) {
                 let non = null;
             }
-            $('Vide').get()[0].children[0].data = '';
+            $('Vide').get()[0].children.forEach(element => {
+                element.data = '';
+            });
             let render = $('Vide component').remove().end().children().html().trim();
             let fullTemp = `
         <!DOCTYPE html>
@@ -90,4 +92,5 @@ ${render}
         });
     });
     exports.headers = fullHead;
+    exports.Components = components;
 });

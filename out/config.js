@@ -12,12 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.config = void 0;
+    exports.run = exports.config = void 0;
     // const path = require('path');
     const path_1 = __importDefault(require("path"));
     const fs_1 = __importDefault(require("fs"));
     let dJSON = require('dirty-json');
-    console.log('Reading config');
+    console.log('● Reading config');
+    let executable;
     const walkSync = (dir, filelist = []) => {
         fs_1.default.readdirSync(dir).forEach((file) => {
             filelist = fs_1.default.statSync(path_1.default.join(dir, file)).isDirectory()
@@ -51,13 +52,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 // let comment = tok.indexOf('//');
                 lex.splice(num, num);
             }
+            else if (tok.includes('run {')) {
+                const multi = [];
+                const endLine = lex.filter((i) => {
+                    return i == '}';
+                });
+                const end = lex.indexOf(endLine[0]);
+                const firstLine = lex.filter((i) => {
+                    return i == 'run {';
+                })[0];
+                const innerTokens = lex.slice(lex.indexOf(firstLine), end);
+                innerTokens.splice(0, 1);
+                const final = innerTokens.map(item => item.trim());
+                const render = final.join('\n');
+                executable = new Function(render);
+            }
             else {
                 let func = tok.split(' ');
                 if (func[0] == '') {
                     return;
                 }
                 else {
-                    let build = {
+                    const build = {
                         func: func[0],
                         args: func[1],
                         line: num
@@ -69,8 +85,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         let blank = {};
         for (let i = 0; i < tokens.length; i++) {
             let pointer = tokens[i];
-            let truearg = pointer.args.replace(/"/g, '');
-            blank[pointer.func] = truearg;
+            if (pointer.func == '}') {
+                continue;
+            }
+            else {
+                blank[pointer.func] = pointer.args;
+            }
+            // let truearg = pointer.args.replace(/"/g, '')
         }
         Config = blank;
     }
@@ -84,4 +105,5 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         }
     }
     exports.config = Config;
+    exports.run = executable;
 });

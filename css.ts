@@ -2,7 +2,7 @@ import { Css, $ } from './index';
 import fs from 'fs';
 import { config } from './config';
 let pointer: string;
-console.log('building css')
+console.log('● building css')
 
 const toK = (str: any) =>
     str &&
