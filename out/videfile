@@ -2,3 +2,7 @@ use non-standard
 
 outDir src
 rootDir .
+//comment
+run {
+    console.log('Json version of config is: ' + this.config)
+}
