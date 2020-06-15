@@ -20,14 +20,14 @@ keyword {
 
 To import the non-standard library use:
 
-<img src='images/example-2-library.png'>
+<img src='images/example-2-library.png'/>
 
 This line will tell the compiler that it should use the the non standard compiler and not parse Json.
 
 
 ### Config Hooks
 
-<img src='images/example-3-hooks.png'>
+<img src='images/example-3-hooks.png'/>
 
 Config hooks allow you to add custom events before or after the code is compiled. Events are written in Javascript. 
 
@@ -35,7 +35,7 @@ Config hooks allow you to add custom events before or after the code is compiled
 
 #### Settings Output Directory
 
-<img src='images/example-5-out-json.png'>
+<img src='images/example-5-out-json.png'/>
 
 ```
 {
@@ -44,7 +44,7 @@ Config hooks allow you to add custom events before or after the code is compiled
 ```
 **Json version**
 
-<img src='images/example-4-outDir.png'>
+<img src='images/example-4-outDir.png'/>
 
 ```
 outDir src
@@ -57,14 +57,14 @@ This specifies the out directory for the compiled code.
 
 #### settings root directory 
 
-<img src='images/example-7-root.png'>
+<img src='images/example-7-root.png'/>
 
 ```
 outDir .
 ```
 **Non-Standard Version**
 
-<img src='images/example-8-root-json.png'>
+<img src='images/example-8-root-json.png'/>
 
 **Json Version**
 
@@ -72,7 +72,7 @@ This options states the root directory or where your source code (.vide files) i
 
 #### comments 
 
-<img src='images/example-6-comment.png'>
+<img src='images/example-6-comment.png'/>
 
 ```
 // comment
@@ -81,4 +81,4 @@ Comment lines can written as such.
 
 ### Basic Config
 
-<img src='images/example-config.png' style='margin:0;padding:0;'>
+<img src='images/example-config.png' style='margin:0;padding:0;'/>
