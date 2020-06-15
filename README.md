@@ -81,4 +81,4 @@ Comment lines can written as such.
 
 ### Basic Config
 
-<img src='https://bitbucket.org/ashtyn372/vide/raw/70170eb18e4829901364c9a4cc6da1f37559b701/images/example-config.png' style='margin:0;padding:0;'/>
+<img src="https://bitbucket.org/ashtyn372/vide/raw/70170eb18e4829901364c9a4cc6da1f37559b701/images/example-config.png" style='margin:0;padding:0;'/>
