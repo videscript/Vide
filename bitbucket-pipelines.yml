@@ -6,13 +6,12 @@
 image: node:10.15.3
 
 pipelines:
-  default:
-    - step:
-        caches:
-          - node
-        script: # Modify the commands below to build your repository.
-          - npm install
-          - npm test          
-    - step:
-        script:
-        - git push --mirror git@github.com:YourOrg/mirror-repo.git
+    default:
+        - step:
+              caches:
+                  - node
+              script: # Modify the commands below to build your repository.
+                  - npm install
+        - step:
+              script:
+                  - git push --mirror git@github.com:YourOrg/mirror-repo.git
