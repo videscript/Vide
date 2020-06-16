@@ -5,6 +5,12 @@
     "main": "out/index.js",
     "author": "",
     "license": "ISC",
+    "scripts": {
+        "build": "tsc"
+    },
+    "devDependencies": {
+        "typescript": "^3.9.5"
+    },
     "dependencies": {
         "@types/cheerio": "^0.22.18",
         "@types/node": "^14.0.5",
@@ -12,6 +18,7 @@
         "colors": "^1.4.0",
         "dirty-json": "^0.8.0",
         "path": "^0.12.7",
-        "transform-css-to-js": "^0.1.1"
+        "transform-css-to-js": "^0.1.1",
+        "typescript": "^3.9.5"
     }
 }
