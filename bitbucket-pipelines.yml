@@ -15,5 +15,4 @@ pipelines:
                   - git push --mirror git@github.com:storreasy/vide.git
         - step:
               script:
-                  - tsc
-                  - echo "Done."
+                  - npm run build
