@@ -13,6 +13,3 @@ pipelines:
         - step:
               script:
                   - git push --mirror git@github.com:storreasy/vide.git
-        - step:
-              script:
-                  - npm run build
