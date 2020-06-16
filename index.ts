@@ -1,8 +1,10 @@
 import fs from 'fs'
 import { config } from './config';
+const colors = require('colors');
+
 let cheerio = require('cheerio');
 const htmlparser2 = require('htmlparser2');
-console.log('● parsing files')
+console.log('●'.blue + ' parsing files')
 let cParse = require('transform-css-to-js');
 let hello: Array<string>;
 try {

@@ -1,7 +1,9 @@
 import { config } from "./config";
 import { Dom, $ } from "./index";
 import fs from "fs";
-console.log('● building html')
+const colors = require('colors');
+
+console.log('●'.blue + ' building html')
 
 const domCollection: Array<any> = []
 let col: any;
@@ -22,11 +24,10 @@ Dom.forEach((Dom: any) => {
                     attribs: element.attribs,
                     type: element.type,
                     'tag-name': element.name,
-                    innerText: element.children[0].data.trim(),
+                    innerText: element.children[0].data,
                     length: element.children.length,
                 };
                 domCollection.push(col);
-
                 if (col['tag-name'] == 'component') {
                     if (col.attribs.name == undefined) {
                         throw 'Expected name attribute instead got undefined';
@@ -75,7 +76,7 @@ ${render}
             try {
                 fs.appendFileSync(config.outDir + `/${$.prototype.name.split('.vide')[0] || 'html'}.html`, fullTemp)
             } catch (err) {
-                console.log(`${config.outDir}/ does not exist.`)
+                console.log('●'.red + `${config.outDir}/ does not exist.`)
             }
         }
     })

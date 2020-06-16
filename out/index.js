@@ -15,9 +15,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     exports.Clean = exports.$ = exports.Dom = exports.Css = void 0;
     const fs_1 = __importDefault(require("fs"));
     const config_1 = require("./config");
+    const colors = require('colors');
     let cheerio = require('cheerio');
     const htmlparser2 = require('htmlparser2');
-    console.log('● parsing files');
+    console.log('●'.blue + ' parsing files');
     let cParse = require('transform-css-to-js');
     let hello;
     try {

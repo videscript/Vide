@@ -16,7 +16,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const config_1 = require("./config");
     const index_1 = require("./index");
     const fs_1 = __importDefault(require("fs"));
-    console.log('● building html');
+    const colors = require('colors');
+    console.log('●'.blue + ' building html');
     const domCollection = [];
     let col;
     let components = {};
@@ -33,7 +34,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                     attribs: element.attribs,
                     type: element.type,
                     'tag-name': element.name,
-                    innerText: element.children[0].data.trim(),
+                    innerText: element.children[0].data,
                     length: element.children.length,
                 };
                 domCollection.push(col);
@@ -86,7 +87,7 @@ ${render}
                     fs_1.default.appendFileSync(config_1.config.outDir + `/${$.prototype.name.split('.vide')[0] || 'html'}.html`, fullTemp);
                 }
                 catch (err) {
-                    console.log(`${config_1.config.outDir}/ does not exist.`);
+                    console.log('●'.red + `${config_1.config.outDir}/ does not exist.`);
                 }
             }
         });

@@ -2,7 +2,8 @@ import { Css, $ } from './index';
 import fs from 'fs';
 import { config } from './config';
 let pointer: string;
-console.log('● building css')
+const colors = require('colors');
+console.log('●'.blue + ' building css')
 
 const toK = (str: any) =>
     str &&
@@ -36,7 +37,7 @@ Css.forEach((css) => {
             try {
                 fs.appendFileSync(config.outDir + '/css-' + fname + '.css', fullTemp)
             } catch (err) {
-                console.log(`${config.outDir}/ does not exist.`)
+                console.log('●'.red + `${config.outDir}/ does not exist.`)
             }
         }
     })

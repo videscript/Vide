@@ -22,12 +22,22 @@ To import the non-standard library use:
 
 <img src='./images/example-2-library.png'/>
 
+```
+use non-standard
+```
+
 This line will tell the compiler that it should use the the non standard compiler and not parse Json.
 
 
 ### Config Hooks
 
 <img src='./images/example-3-hooks.png'/>
+
+```
+run {
+    // code here
+}
+```
 
 Config hooks allow you to add custom events before or after the code is compiled. Events are written in Javascript. 
 

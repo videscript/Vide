@@ -17,7 +17,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const path_1 = __importDefault(require("path"));
     const fs_1 = __importDefault(require("fs"));
     let dJSON = require('dirty-json');
-    console.log('● Reading config');
+    const colors = require('colors');
+    console.log('●'.blue + ' Reading config');
     let executable;
     const walkSync = (dir, filelist = []) => {
         fs_1.default.readdirSync(dir).forEach((file) => {

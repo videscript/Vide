@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+const { exec } = require("child_process");
+
+var start = new Date();
+let args = process.argv;
+if (args.includes("-html")) {
+    const html = require("./Vide/html");
+} else if (args.includes("-css")) {
+    const css = require("./Vide/css");
+} else {
+    const config = require("./Vide/config");
+    const css = require("./Vide/css");
+    const components = require("./Vide/component");
+    const html = require("./Vide/html");
+    if (config.run != undefined) {
+        config.run();
+    }
+}
+var end = new Date() - start;
+console.info("Execution time: %dms", end);
