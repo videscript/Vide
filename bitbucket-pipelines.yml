@@ -16,4 +16,5 @@ pipelines:
         -step:
               script:
                   - tsc
+              script:
                   - echo "Done."
