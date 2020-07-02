@@ -17,6 +17,7 @@
         "cheerio": "^1.0.0-rc.3",
         "colors": "^1.4.0",
         "dirty-json": "^0.8.0",
+        "mime": "^2.4.6",
         "path": "^0.12.7",
         "transform-css-to-js": "^0.1.1",
         "typescript": "^3.9.5"

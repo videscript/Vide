@@ -4,17 +4,25 @@ const { exec } = require("child_process");
 var start = new Date();
 let args = process.argv;
 if (args.includes("-html")) {
-    const html = require("./Vide/html");
+    const html = require("./html");
 } else if (args.includes("-css")) {
-    const css = require("./Vide/css");
+    const css = require("./css");
+} else if (args.includes("-test")) {
+    const pos = args.indexOf("-test");
+    if (args[pos + 1] == "router") {
+        const router = require("./extensions/backend-router/route");
+    } else if (args[pos + 1] == "serve") {
+        const router = require("./extensions/backend-router/serve");
+    }
 } else {
-    const config = require("./Vide/config");
-    const css = require("./Vide/css");
-    const components = require("./Vide/component");
-    const html = require("./Vide/html");
+    const config = require("./config");
+    const css = require("./css");
+    const components = require("./component");
+    const html = require("./html");
     if (config.run != undefined) {
         config.run();
     }
 }
+
 var end = new Date() - start;
 console.info("Execution time: %dms", end);

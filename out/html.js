@@ -16,8 +16,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const config_1 = require("./config");
     const index_1 = require("./index");
     const fs_1 = __importDefault(require("fs"));
-    const colors = require('colors');
-    console.log('●'.blue + ' building html');
+    const colors = require("colors");
+    console.log("●".blue + " building html");
     const domCollection = [];
     let col;
     let components = {};
@@ -25,69 +25,89 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     index_1.Dom.forEach((Dom) => {
         let Headers = {};
         index_1.$.forEach(($) => {
-            Dom
-                .get()
-                .forEach((element) => {
+            Dom.get().forEach((element) => {
                 let attr = JSON.parse(JSON.stringify(element.attribs));
                 let params = Object.keys(element.attribs);
-                col = {
-                    attribs: element.attribs,
-                    type: element.type,
-                    'tag-name': element.name,
-                    innerText: element.children[0].data,
-                    length: element.children.length,
-                };
+                if (element.children[0] == undefined) {
+                    col = {
+                        attribs: element.attribs,
+                        type: element.type,
+                        "tag-name": element.name,
+                        length: element.children.length,
+                    };
+                }
+                else {
+                    col = {
+                        attribs: element.attribs,
+                        type: element.type,
+                        "tag-name": element.name,
+                        innerText: element.children[0].data,
+                        length: element.children.length,
+                    };
+                }
                 domCollection.push(col);
-                if (col['tag-name'] == 'component') {
+                if (col["tag-name"] == "component") {
                     if (col.attribs.name == undefined) {
-                        throw 'Expected name attribute instead got undefined';
+                        throw "Expected name attribute instead got undefined";
                     }
                     if (col.attribs.type == undefined) {
-                        throw 'Expected type attribute instead got undefined';
+                        throw "Expected type attribute instead got undefined";
                     }
                     components[col.attribs.name] = col;
                 }
             });
-            if ($('Vide').get()[0].attribs.name != undefined) {
-                Headers.name = $('Vide').get()[0].attribs.name;
+            if ($("Vide").get()[0].attribs.name != undefined) {
+                Headers.name = $("Vide").get()[0].attribs.name;
             }
             else {
-                Headers.name = 'Vide app';
+                Headers.name = "Vide app";
             }
-            const state = config_1.config.outDir + `/${$.prototype.name.split('.vide')[0].split('.vide')[0] || 'html'}.html` || '.' + `/${$.prototype.name.split('.vide')[0] || 'html'}.html`;
+            const state = config_1.config.outDir +
+                `/${$.prototype.name.split(".vide")[0].split(".vide")[0] ||
+                    "html"}.html` ||
+                "." + `/${$.prototype.name.split(".vide")[0] || "html"}.html`;
             try {
                 fs_1.default.unlinkSync(state);
             }
             catch (err) {
                 let non = null;
             }
-            $('Vide').get()[0].children.forEach(element => {
-                element.data = '';
+            $("Vide")
+                .get()[0]
+                .children.forEach((element) => {
+                element.data = "";
             });
-            let render = $('Vide component').remove().end().children().html().trim();
+            $("Router").remove();
+            let render = $("Vide component")
+                .remove()
+                .end()
+                .children()
+                .html()
+                .trim();
             let fullTemp = `
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${Headers.name || 'Vide app'}</title>
-    <link rel="stylesheet" href="css-${$.prototype.name.split('.vide')[0]}.css">
+    <title>${Headers.name || "Vide app"}</title>
+    <link rel="stylesheet" href="css-${$.prototype.name.split(".vide")[0]}.css">
 </head>
 <body>
 ${render}
 </body>
 </html>
 `;
-            if (config_1.config.outDir + '/' == 'undefined/') {
-                fs_1.default.appendFileSync(`./${$.prototype.name.split('.vide')[0] || 'html'}.html`, fullTemp);
+            if (config_1.config.outDir + "/" == "undefined/") {
+                fs_1.default.appendFileSync(`./${$.prototype.name.split(".vide")[0] || "html"}.html`, fullTemp);
             }
             else {
                 try {
-                    fs_1.default.appendFileSync(config_1.config.outDir + `/${$.prototype.name.split('.vide')[0] || 'html'}.html`, fullTemp);
+                    fs_1.default.appendFileSync(config_1.config.outDir +
+                        `/${$.prototype.name.split(".vide")[0] || "html"}.html`, fullTemp);
                 }
                 catch (err) {
-                    console.log('●'.red + `${config_1.config.outDir}/ does not exist.`);
+                    console.log("●".red + `${config_1.config.outDir}/ does not exist.`);
                 }
             }
         });
