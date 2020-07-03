@@ -37,7 +37,7 @@ if (unproper.includes("use non-standard")) {
     lex.forEach((tok, num) => {
         if (tok.includes("//")) {
             // let comment = tok.indexOf('//');
-            lex.splice(num, num);
+            lex.splice(num, 1);
         } else if (tok.includes("run {")) {
             const multi: Array<string> = [];
             const endLine: Array<any> = lex.filter((i: any) => {

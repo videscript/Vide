@@ -66,17 +66,13 @@ p {
     </component>
     <Router>
         <route path="/about" dest="about.vide" >
-        payload = {
-            "hi": "hello"
-        }
-        this.data = {
-            'content-type': 'text/json',
-            'content': payload
-        }
-        return this.data;
+            this.data = {
+                'content-type': 'text/plain',
+                'content': 'hii gram'
+            }
+            return this.data;
         </route>
         <route path="/" dest="index.vide"></route>
-        <route dest="about.vide" path="*" type="404"></route>
 </route>
     </Router>
 </Vide>

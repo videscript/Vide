@@ -1,8 +1,8 @@
 import routes from "./route";
 import { config } from "../../config";
-var http = require("http");
-var fs = require("fs");
-
+const http = require("http");
+const fs = require("fs");
+const colors = require("colors");
 const paths: Object = {};
 Object.keys(routes).forEach((key: string) => {
     const route: object = routes[key];
@@ -67,6 +67,9 @@ http.createServer(async function (req: any, res: any) {
 
     if (paths[path] != undefined) {
         res.writeHead(202, { "Content-Type": paths[path].type });
+        console.log(
+            `Loaded path: ${path} - with data: ${JSON.stringify(paths[path])}`
+        );
         if (paths[path].type == "text/json") {
             res.write(JSON.stringify(paths[path].body));
         } else {
@@ -74,7 +77,6 @@ http.createServer(async function (req: any, res: any) {
         }
     }
     if (paths[path] == undefined) {
-        console.log(paths["404"]);
         if (paths["404"] == undefined) {
             res.writeHead(202, { "Content-Type": "text/html" });
             res.write(
@@ -91,3 +93,4 @@ http.createServer(async function (req: any, res: any) {
     }
     res.end();
 }).listen(3000);
+console.log("●".blue + " Web link: http://localhost:3000");
