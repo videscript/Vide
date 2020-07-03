@@ -14,8 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     Object.defineProperty(exports, "__esModule", { value: true });
     const route_1 = __importDefault(require("./route"));
     const config_1 = require("../../config");
-    var http = require("http");
-    var fs = require("fs");
+    const http = require("http");
+    const fs = require("fs");
+    const colors = require("colors");
     const paths = {};
     Object.keys(route_1.default).forEach((key) => {
         const route = route_1.default[key];
@@ -76,6 +77,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         }
         if (paths[path] != undefined) {
             res.writeHead(202, { "Content-Type": paths[path].type });
+            console.log(`Loaded path: ${path} - with data: ${JSON.stringify(paths[path])}`);
             if (paths[path].type == "text/json") {
                 res.write(JSON.stringify(paths[path].body));
             }
@@ -84,7 +86,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             }
         }
         if (paths[path] == undefined) {
-            console.log(paths["404"]);
             if (paths["404"] == undefined) {
                 res.writeHead(202, { "Content-Type": "text/html" });
                 res.write(`<h1>404</h1><h3>Vide page not found...</h3><p>Requested page: ${path} does not exist.</p>`);
@@ -101,4 +102,5 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         }
         res.end();
     }).listen(3000);
+    console.log("●".blue + " Web link: http://localhost:3000");
 });

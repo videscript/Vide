@@ -12,15 +12,22 @@ if (args.includes("-html")) {
     if (args[pos + 1] == "router") {
         const router = require("./extensions/backend-router/route");
     } else if (args[pos + 1] == "serve") {
-        const router = require("./extensions/backend-router/serve");
+        const serve = require("./extensions/backend-router/serve");
     }
 } else {
     const config = require("./config");
     const css = require("./css");
     const components = require("./component");
     const html = require("./html");
+
+    if (config.config.router == "true") {
+        const router = require("./extensions/backend-router/route");
+        const serve = require("./extensions/backend-router/serve");
+    }
     if (config.run != undefined) {
+        console.log("");
         config.run();
+        console.log("");
     }
 }
 

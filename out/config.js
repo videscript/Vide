@@ -51,7 +51,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         lex.forEach((tok, num) => {
             if (tok.includes("//")) {
                 // let comment = tok.indexOf('//');
-                lex.splice(num, num);
+                lex.splice(num, 1);
             }
             else if (tok.includes("run {")) {
                 const multi = [];

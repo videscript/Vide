@@ -12,6 +12,8 @@
     const index_1 = require("../../index");
     let routes = {};
     let index;
+    const colors = require("colors");
+    console.log("●".blue + " compiling routes");
     index_1.Clean.forEach((r, num) => {
         const file = r("Router").html();
         if (file == null) {
@@ -30,6 +32,12 @@
         }
         else {
             if (route[0] == undefined) {
+                if (element.attribs.path == "*") {
+                    console.log("●".blue + "    built route: " + element.attribs.type);
+                }
+                else {
+                    console.log("●".blue + "    built route: " + element.attribs.path);
+                }
                 routes[element.attribs.path] = {
                     path: element.attribs.path,
                     dest: element.attribs.dest,
@@ -37,6 +45,12 @@
                 };
             }
             else {
+                if (element.attribs.path == "*") {
+                    console.log("●".blue + "    built route: " + element.attribs.type);
+                }
+                else {
+                    console.log("●".blue + "    built route: " + element.attribs.path);
+                }
                 routes[element.attribs.path] = {
                     callback: route[0].data,
                     path: element.attribs.path,
