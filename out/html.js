@@ -25,7 +25,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     index_1.Dom.forEach((Dom) => {
         let Headers = {};
         index_1.$.forEach(($) => {
-            Dom.get().forEach((element) => {
+            Dom.get().forEach((element, num) => {
                 let attr = JSON.parse(JSON.stringify(element.attribs));
                 let params = Object.keys(element.attribs);
                 if (element.children[0] == undefined) {
@@ -42,6 +42,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                         type: element.type,
                         "tag-name": element.name,
                         innerText: element.children[0].data,
+                        fullText: index_1.Clean.filter((r) => r(`component[name=${element.attribs.name}]`).html() != null)[0],
                         length: element.children.length,
                     };
                 }

@@ -58,12 +58,18 @@ p {
             This is section 3!
         </p>
     </section>
-    <component name='hfdsa' type='css'>
-    fjdkslajf
+    <component name='body_color' type='css'>
+    body {
+        background: red;
+    }
     </component>
-     <component name='ff' type='css'>
-    fjdkslajf
+    
+    <component name="The" type="html" >
+    <h1>hi</h1>
     </component>
+
+    <import name='hi'>
+
     <Router>
         <route path="/about" dest="about.vide" >
             this.data = {
@@ -73,6 +79,5 @@ p {
             return this.data;
         </route>
         <route path="/" dest="index.vide"></route>
-</route>
     </Router>
 </Vide>

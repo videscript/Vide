@@ -1,5 +1,5 @@
 import { config } from "./config";
-import { Dom, $ } from "./index";
+import { Dom, $, Clean } from "./index";
 import fs from "fs";
 const colors = require("colors");
 
@@ -14,7 +14,7 @@ Dom.forEach((Dom: any) => {
     let Headers: any = {};
 
     $.forEach(($) => {
-        Dom.get().forEach((element: any) => {
+        Dom.get().forEach((element: any, num: number) => {
             let attr = JSON.parse(JSON.stringify(element.attribs));
             let params = Object.keys(element.attribs);
             if (element.children[0] == undefined) {
@@ -30,6 +30,12 @@ Dom.forEach((Dom: any) => {
                     type: element.type,
                     "tag-name": element.name,
                     innerText: element.children[0].data,
+                    fullText: Clean.filter(
+                        (r: Object) =>
+                            r(
+                                `component[name=${element.attribs.name}]`
+                            ).html() != null
+                    )[0],
                     length: element.children.length,
                 };
             }
