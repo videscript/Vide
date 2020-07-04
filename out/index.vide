@@ -74,7 +74,7 @@ p {
         <route path="/about" dest="about.vide" >
             this.data = {
                 'content-type': 'text/plain',
-                'content': 'hii gram'
+                'content': 'Hello world! This is plain text!'
             }
             return this.data;
         </route>

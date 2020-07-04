@@ -9,42 +9,42 @@
 
 'use strict';
 
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+function _interopDefault(ex) {
+  return ex && typeof ex === 'object' && 'default' in ex ? ex['default'] : ex;
+}
 
-var cssToReactNative = _interopDefault(require('css-to-react-native'));
-var kebabCase = _interopDefault(require('lodash/kebabCase'));
-var stringify = _interopDefault(require('stringify-object'));
+const cssToReactNative = _interopDefault(require('css-to-react-native'));
+const kebabCase = _interopDefault(require('lodash/kebabCase'));
+const stringify = _interopDefault(require('stringify-object'));
 
-const SPACE = "  ";
+const SPACE = '  ';
 function toProperty(name) {
-  if (name.charAt(0) === "-") name = name.slice(0);
+  if (name.charAt(0) === '-') name = name.slice(0);
 
-  return name.replace(/[^a-z0-9]([a-z0-9])?/gi, function(v, l) {
+  return name.replace(/[^a-z0-9]([a-z0-9])?/gi, (v, l) => {
     if (l) return l.toUpperCase();
-    return "";
+    return '';
   });
 }
 
 function toSelectors(name) {
-  const names = name.split(",");
+  const names = name.split(',');
 
-  return names.map(function(name) {
+  return names.map(name => {
     name = name.trim();
-      return (
-      '"'+name+'"'
-    );
+    return '"' + name + '"';
   });
 }
 
 function tokenizer(code) {
   const tokens = [];
-  let token = "";
-  const whitespc = ["\r\n", "\n\r", "\n", "\r"];
-  let lastChar = "\0";
-  let nextChar = "\0";
-  let char = "\0";
-  const specialChars = ["{", "}", ":", ";"];
-  const specialCharsPB = ["{", "}", ";"];
+  let token = '';
+  const whitespc = ['\r\n', '\n\r', '\n', '\r'];
+  let lastChar = '\0';
+  let nextChar = '\0';
+  let char = '\0';
+  const specialChars = ['{', '}', ':', ';'];
+  const specialCharsPB = ['{', '}', ';'];
   let sc = null;
   let inBrackets = false;
 
@@ -60,11 +60,11 @@ function tokenizer(code) {
     sc = inBrackets ? specialChars : specialCharsPB;
 
     if (~sc.indexOf(char)) {
-      if (char === "{") inBrackets = true;
-      if (char === "}") inBrackets = false;
+      if (char === '{') inBrackets = true;
+      if (char === '}') inBrackets = false;
       tokens.push(token);
       tokens.push(char);
-      token = "";
+      token = '';
       continue;
     }
 
@@ -74,10 +74,10 @@ function tokenizer(code) {
   if (token) tokens.push(token);
 
   return tokens
-    .map(function(token) {
+    .map(token => {
       return token.trim();
     })
-    .filter(function(token) {
+    .filter(token => {
       return token;
     });
 }
@@ -92,7 +92,7 @@ function convertoToJS(tokens) {
     actualItem = {
       originalValue: token,
       selectors: selectors,
-      values: {}
+      values: {},
     };
 
     actualProp = null;
@@ -102,24 +102,24 @@ function convertoToJS(tokens) {
   }
 
   function readBracketO(token) {
-    if (token !== "{") throw new Error("expected '{' ");
+    if (token !== '{') throw new Error("expected '{' ");
 
     return readProperty;
   }
 
   function readBracketC(token) {
-    if (token !== "}") throw new Error("expected '}' ");
+    if (token !== '}') throw new Error("expected '}' ");
     return readSelector;
   }
 
   function readDefinition(token) {
-    if (token !== ":") throw new Error("expected ':' ");
+    if (token !== ':') throw new Error("expected ':' ");
 
     return readValue;
   }
 
   function readProperty(token) {
-    if (token === "}") return readBracketC(token);
+    if (token === '}') return readBracketC(token);
 
     const property = toProperty(token);
     actualProp = property;
@@ -138,14 +138,14 @@ function convertoToJS(tokens) {
   }
 
   function readFinal(token) {
-    if (token === "}") return readBracketC(token);
-    if (token !== ";") throw new Error("expected ';' ");
+    if (token === '}') return readBracketC(token);
+    if (token !== ';') throw new Error("expected ';' ");
     return readProperty;
   }
 
   let nextAction = readSelector;
   let i = 0;
-  tokens.forEach(function(token) {
+  tokens.forEach(token => {
     i++;
     nextAction = nextAction(token);
   });
@@ -154,10 +154,10 @@ function convertoToJS(tokens) {
 }
 
 function renderJS(items) {
-  let objects = ["{"];
-  objects = objects.concat(items.map(renderItem).join(","));
-  objects.push("}");
-  return objects.join("\n");
+  let objects = ['{'];
+  objects = objects.concat(items.map(renderItem).join(','));
+  objects.push('}');
+  return objects.join('\n');
 }
 
 function renderItem(item) {
@@ -169,7 +169,7 @@ function renderItem(item) {
     if (item.values.hasOwnProperty(prop)) {
       const propitem = {
         name: prop,
-        value: item.values[prop][item.values[prop].length - 1]
+        value: item.values[prop][item.values[prop].length - 1],
       };
       let markup = '"';
       if (~propitem.value.indexOf('"')) {
@@ -177,27 +177,34 @@ function renderItem(item) {
         propitem.value = propitem.value.replace(/'/gi, "\\'");
       }
       properties.push(
-        SPACE + SPACE +'"' +propitem.name + "\": " + markup + propitem.value + markup
+        SPACE +
+          SPACE +
+          '"' +
+          propitem.name +
+          '": ' +
+          markup +
+          propitem.value +
+          markup
       );
     }
   }
 
-  properties = properties.map(function(x) {
+  properties = properties.map(x => {
     return SPACE + x;
   });
 
-  item.selectors.forEach(function(i) {
-    code.push(SPACE + i + ": {");
-    code.push(properties.join(",\n"));
-    code.push(SPACE + "}");
+  item.selectors.forEach(i => {
+    code.push(SPACE + i + ': {');
+    code.push(properties.join(',\n'));
+    code.push(SPACE + '}');
   });
 
-  return code.join("\n");
+  return code.join('\n');
 }
 
 function getRnCode(css) {
   const styles = {};
-  const code = eval("(" + convertoToJS(tokenizer(css)) + ")");
+  const code = eval('(' + convertoToJS(tokenizer(css)) + ')');
   Object.keys(code).forEach(key => {
     styles[key] = {};
     const arr = [];
@@ -207,11 +214,11 @@ function getRnCode(css) {
     styles[key] = cssToReactNative(arr);
   });
   return stringify(styles, {
-    indent: "  "
+    indent: '  ',
   });
 }
 
-var index = function(code, reactNative = false) {
+const index = function (code, reactNative = false) {
   return reactNative ? getRnCode(code) : convertoToJS(tokenizer(code));
 };
 
