@@ -1,0 +1,6 @@
+<Vide name="hi">
+  <script>
+    console.log('hi');
+  </script>
+  <Router></Router>
+</Vide>

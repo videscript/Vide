@@ -27,7 +27,7 @@ valid.forEach((attr: any) => {
 });
 
 //import
-Clean.forEach(($, Num) => {
+Clean.forEach(($: any, Num) => {
   $('import')
     .get()
     .forEach((el: any) => {

@@ -4,6 +4,9 @@
   "description": "",
   "main": "out/index.js",
   "author": "",
+  "bin": {
+    "vide": "src/vide"
+  },
   "license": "ISC",
   "scripts": {
     "build": "tsc",
@@ -16,9 +19,8 @@
     "posttest": "npm run check"
   },
   "devDependencies": {
-    "typescript": "^3.9.5",
-    "gts": "^2.0.2",
-    "@types/node": "^13.11.1"
+    "@types/node": "^13.11.1",
+    "typescript": "^3.9.5"
   },
   "dependencies": {
     "@types/cheerio": "^0.22.18",

@@ -1,6 +1,7 @@
 import {Clean} from '../../index';
+import {exit} from 'process';
 
-const routes: object = {};
+const routes: any = {};
 let index;
 const colors = require('colors');
 
@@ -15,7 +16,10 @@ Clean.forEach((r: any, num: number) => {
 });
 
 const router: any = Clean[index];
-
+if (router == undefined) {
+  console.log('Router enabled but no router found');
+  exit();
+}
 const children: Array<any> = router('Router').get()[0].children;
 
 children.forEach((element: Record<string, any>) => {
@@ -23,8 +27,8 @@ children.forEach((element: Record<string, any>) => {
   if (route == undefined) {
     return;
   } else {
-    if (route[0] == undefined) {
-      if (element.attribs.path == '*') {
+    if (route[0] === undefined) {
+      if (element.attribs.path === '*') {
         console.log('●'.blue + '    built route: ' + element.attribs.type);
       } else {
         console.log('●'.blue + '    built route: ' + element.attribs.path);

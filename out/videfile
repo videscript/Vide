@@ -2,7 +2,7 @@ use non-standard
 
 outDir src
 rootDir .
-router true
+// router true   ENABLES ROUTER
 
 run {
     console.log('Json version of config is: ' + JSON.stringify(this.config))

@@ -65,9 +65,9 @@ if (unproper.includes('use non-standard')) {
       }
     }
   });
-  const blank: object = {};
+  const blank: any = {};
   for (let i = 0; i < tokens.length; i++) {
-    const pointer: object = tokens[i];
+    const pointer: any = tokens[i];
     if (pointer.func === '}') {
       continue;
     } else {
