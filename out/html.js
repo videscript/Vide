@@ -24,7 +24,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const fullHead = [];
     index_1.Dom.forEach((Dom) => {
         const Headers = {};
-        index_1.$.forEach($ => {
+        index_1.$.forEach(($) => {
             Dom.get().forEach((element, num) => {
                 const attr = JSON.parse(JSON.stringify(element.attribs));
                 const params = Object.keys(element.attribs);
@@ -57,34 +57,43 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                     components[col.attribs.name] = col;
                 }
             });
-            if ($('Vide').get()[0].attribs.name !== undefined) {
+            const videAttr = $('Vide').get()[0].attribs;
+            if (videAttr.name !== undefined) {
                 Headers.name = $('Vide').get()[0].attribs.name;
             }
             else {
                 Headers.name = 'Vide app';
             }
-            const state = config_1.config.outDir +
-                `/${$.prototype.name.split('.vide')[0].split('.vide')[0] || 'html'}.html` ||
-                '.' + `/${$.prototype.name.split('.vide')[0] || 'html'}.html`;
-            try {
-                fs_1.default.unlinkSync(state);
+            if (config_1.config.outDir === undefined) {
+                if (fs_1.default.existsSync(`./${$.prototype.name.split('.vide')[0] || 'html'}.html`)) {
+                    fs_1.default.unlinkSync(`./${$.prototype.name.split('.vide')[0] || 'html'}.html`);
+                }
             }
-            catch (err) {
-                const non = null;
+            else {
+                if (fs_1.default.existsSync(`${config_1.config.outDir}/${$.prototype.name.split('.vide')[0] || 'html'}.html`)) {
+                    fs_1.default.unlinkSync(`${config_1.config.outDir}/${$.prototype.name.split('.vide')[0]}.html`);
+                }
             }
-            $('Vide')
-                .get()[0]
-                .children.forEach((element) => {
-                element.data = '';
-            });
-            $('Router').remove();
-            const render = $('Vide component')
-                .remove()
-                .end()
-                .children()
-                .html()
-                .trim();
-            const fullTemp = `
+            if (Object.keys(videAttr).includes('router')) {
+                console.log('   ●'.blue +
+                    ' skipping ' +
+                    $.prototype.name +
+                    ' due to type being router');
+            }
+            else {
+                $('Vide')
+                    .get()[0]
+                    .children.forEach((element) => {
+                    element.data = '';
+                });
+                $('Router').remove();
+                const render = $('Vide component')
+                    .remove()
+                    .end()
+                    .children()
+                    .html()
+                    .trim();
+                const fullTemp = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -98,16 +107,17 @@ ${render}
 </body>
 </html>
 `;
-            if (config_1.config.outDir + '/' === 'undefined/') {
-                fs_1.default.appendFileSync(`./${$.prototype.name.split('.vide')[0] || 'html'}.html`, fullTemp);
-            }
-            else {
-                try {
-                    fs_1.default.appendFileSync(config_1.config.outDir +
-                        `/${$.prototype.name.split('.vide')[0] || 'html'}.html`, fullTemp);
+                if (config_1.config.outDir + '/' === 'undefined/') {
+                    fs_1.default.appendFileSync(`./${$.prototype.name.split('.vide')[0] || 'html'}.html`, fullTemp);
                 }
-                catch (err) {
-                    console.log('●'.red + `${config_1.config.outDir}/ does not exist.`);
+                else {
+                    try {
+                        fs_1.default.appendFileSync(config_1.config.outDir +
+                            `/${$.prototype.name.split('.vide')[0] || 'html'}.html`, fullTemp);
+                    }
+                    catch (err) {
+                        console.log('●'.red + ` ${config_1.config.outDir}/ does not exist.`);
+                    }
                 }
             }
         });

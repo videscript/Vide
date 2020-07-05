@@ -23,14 +23,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
             .map((x) => x.toLowerCase())
             .join('-');
+    const routerType = [];
+    index_1.$.forEach((parsed) => {
+        const attr = parsed('Vide').get()[0].attribs;
+        const attrTitles = Object.keys(attr);
+        if (attrTitles.includes('router')) {
+            routerType.push(parsed.prototype.name);
+        }
+    });
     index_1.Css.forEach((css) => {
         const CSS = css.css;
         const fname = css.name.split('.vide')[0];
         //checks for duplicate files & deletes them
-        const state = config_1.config.outDir + '/css-' + fname + '.css' || '.' + '/css-' + fname + '.css';
-        if (fs_1.default.existsSync(config_1.config.outDir + '/css-' + fname + '.css') ||
-            fs_1.default.existsSync('.' + '/css-' + fname + '.css')) {
-            fs_1.default.unlinkSync(state);
+        if (config_1.config.outDir + '/' === 'undefined/') {
+            if (fs_1.default.existsSync('./css-' + fname + '.css'))
+                fs_1.default.unlinkSync('./css-' + fname + '.css');
+        }
+        else {
+            if (fs_1.default.existsSync(config_1.config.outDir + '/css-' + fname + '.css'))
+                fs_1.default.unlinkSync(config_1.config.outDir + '/css-' + fname + '.css');
         }
         //builds css
         let fullTemp;
@@ -44,15 +55,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 ruling = ruling.concat(temp);
             });
             fullTemp = `\n${data} {\n${ruling}}\n`;
-            if (config_1.config.outDir + '/' === 'undefined/') {
-                fs_1.default.appendFileSync('./css-' + fname + '.css', fullTemp);
+            if (routerType.includes(fname + '.vide')) {
+                return;
             }
             else {
-                try {
-                    fs_1.default.appendFileSync(config_1.config.outDir + '/css-' + fname + '.css', fullTemp);
+                if (config_1.config.outDir + '/' === 'undefined/') {
+                    fs_1.default.appendFileSync('./css-' + fname + '.css', fullTemp);
                 }
-                catch (err) {
-                    console.log('●'.red + `${config_1.config.outDir}/ does not exist.`);
+                else {
+                    try {
+                        fs_1.default.appendFileSync(config_1.config.outDir + '/css-' + fname + '.css', fullTemp);
+                    }
+                    catch (err) {
+                        console.log('●'.red + ` ${config_1.config.outDir}/ does not exist.`);
+                    }
                 }
             }
         });

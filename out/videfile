@@ -1,7 +1,6 @@
 use non-standard
 
 outDir src
-rootDir .
 // router true   ENABLES ROUTER
 
 run {

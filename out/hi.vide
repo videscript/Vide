@@ -1,6 +1,10 @@
 <Vide name="hi">
-  <script>
-    console.log('hi');
-  </script>
+    h1 {
+        color:blue;
+    }
+    body {
+        background:green;
+    }
+    <h1>djfkdsl</h1>
   <Router></Router>
 </Vide>
