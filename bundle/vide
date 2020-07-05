@@ -1,0 +1,35 @@
+#!/usr/bin/env node
+
+const {exec} = require('child_process');
+const start = new Date();
+let args = process.argv;
+if (args.includes('-html')) {
+  const html = require('./Vide/html');
+} else if (args.includes('-css')) {
+  const css = require('./Vide/css');
+} else if (args.includes('-test')) {
+  const pos = args.indexOf('-test');
+  if (args[pos + 1] == 'router') {
+    const router = require('./Vide/extensions/backend-router/route');
+  } else if (args[pos + 1] == 'serve') {
+    const serve = require('./Vide/extensions/backend-router/serve');
+  }
+} else {
+  const config = require('./Vide/config');
+  const css = require('./Vide/css');
+  const components = require('./Vide/component');
+  const html = require('./Vide/html');
+
+  if (config.config.router == 'true') {
+    const router = require('./Vide/extensions/backend-router/route');
+    const serve = require('./Vide/extensions/backend-router/serve');
+  }
+  if (config.run != undefined) {
+    console.log('');
+    config.run();
+    console.log('');
+  }
+}
+
+let end = new Date() - start;
+console.info('Execution time: %dms', end);

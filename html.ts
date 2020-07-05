@@ -13,7 +13,7 @@ const fullHead: Array<any> = [];
 Dom.forEach((Dom: any) => {
   const Headers: any = {};
 
-  $.forEach($ => {
+  $.forEach(($:any) => {
     Dom.get().forEach((element: any, num: number) => {
       const attr = JSON.parse(JSON.stringify(element.attribs));
       const params = Object.keys(element.attribs);
