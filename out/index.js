@@ -57,9 +57,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         dom.push($('Vide *'));
         $.prototype.name = point;
         raw.push($);
-        const Css = $('Vide').clone().children().remove().end().text().trim();
-        const str = cParse(Css);
-        CSS.push({ name: point, css: JSON.parse(str) });
+        if (!Object.keys($('Vide').get()[0].attribs).includes('script')) {
+            const Css = $('Vide').clone().children().remove().end().text().trim();
+            const str = cParse(Css);
+            CSS.push({ name: point, css: JSON.parse(str) });
+        }
         const clean = htmlparser2.parseDOM(file);
         const compE = cheerio.load(clean);
         compE.prototype.name = point;

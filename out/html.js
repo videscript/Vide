@@ -7,93 +7,107 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "./config", "./index", "fs"], factory);
+        define(["require", "exports", "./config", "./index", "fs", "process"], factory);
     }
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Components = exports.headers = void 0;
+    exports.scripts = exports.Components = exports.headers = void 0;
     const config_1 = require("./config");
     const index_1 = require("./index");
     const fs_1 = __importDefault(require("fs"));
+    const process_1 = require("process");
     const colors = require('colors');
     console.log('●'.blue + ' building html');
     const domCollection = [];
     let col;
     const components = {};
     const fullHead = [];
+    let js = [];
     index_1.Dom.forEach((Dom) => {
         const Headers = {};
         index_1.$.forEach(($) => {
-            Dom.get().forEach((element, num) => {
-                const attr = JSON.parse(JSON.stringify(element.attribs));
-                const params = Object.keys(element.attribs);
-                if (element.children[0] === undefined) {
-                    col = {
-                        attribs: element.attribs,
-                        type: element.type,
-                        'tag-name': element.name,
-                        length: element.children.length,
-                    };
+            if (Object.keys($('Vide').get()[0].attribs).includes('script')) {
+                console.log('   ●'.blue + ' compiling JS script: ' + $.prototype.name);
+                js.push({
+                    js: $('Vide').text().trim().split('\n'),
+                    from: $.prototype.name,
+                });
+            }
+            else {
+                Dom.get().forEach((element, num) => {
+                    const attr = JSON.parse(JSON.stringify(element.attribs));
+                    const params = Object.keys(element.attribs);
+                    if (element.children[0] === undefined) {
+                        col = {
+                            attribs: element.attribs,
+                            type: element.type,
+                            'tag-name': element.name,
+                            length: element.children.length,
+                        };
+                    }
+                    else {
+                        col = {
+                            attribs: element.attribs,
+                            type: element.type,
+                            'tag-name': element.name,
+                            innerText: element.children[0].data,
+                            fullText: index_1.Clean.filter((r) => r(`component[name=${element.attribs.name}]`).html() != null)[0],
+                            length: element.children.length,
+                        };
+                    }
+                    domCollection.push(col);
+                    if (col['tag-name'] === 'component') {
+                        if (col.attribs.name === undefined) {
+                            console.log('   ● '.red +
+                                'Expected name attribute instead got undefined');
+                            process_1.exit();
+                        }
+                        if (col.attribs.type === undefined) {
+                            console.log('   ● '.red +
+                                'Expected type attribute instead got undefined');
+                            process_1.exit();
+                        }
+                        components[col.attribs.name] = col;
+                    }
+                });
+                const videAttr = $('Vide').get()[0].attribs;
+                if (videAttr.name !== undefined) {
+                    Headers.name = $('Vide').get()[0].attribs.name;
                 }
                 else {
-                    col = {
-                        attribs: element.attribs,
-                        type: element.type,
-                        'tag-name': element.name,
-                        innerText: element.children[0].data,
-                        fullText: index_1.Clean.filter((r) => r(`component[name=${element.attribs.name}]`).html() != null)[0],
-                        length: element.children.length,
-                    };
+                    Headers.name = 'Vide app';
                 }
-                domCollection.push(col);
-                if (col['tag-name'] === 'component') {
-                    if (col.attribs.name === undefined) {
-                        throw 'Expected name attribute instead got undefined';
+                if (config_1.config.outDir === undefined) {
+                    if (fs_1.default.existsSync(`./${$.prototype.name.split('.vide')[0] || 'html'}.html`)) {
+                        fs_1.default.unlinkSync(`./${$.prototype.name.split('.vide')[0] || 'html'}.html`);
                     }
-                    if (col.attribs.type === undefined) {
-                        throw 'Expected type attribute instead got undefined';
+                }
+                else {
+                    if (fs_1.default.existsSync(`${config_1.config.outDir}/${$.prototype.name.split('.vide')[0] || 'html'}.html`)) {
+                        fs_1.default.unlinkSync(`${config_1.config.outDir}/${$.prototype.name.split('.vide')[0]}.html`);
                     }
-                    components[col.attribs.name] = col;
                 }
-            });
-            const videAttr = $('Vide').get()[0].attribs;
-            if (videAttr.name !== undefined) {
-                Headers.name = $('Vide').get()[0].attribs.name;
-            }
-            else {
-                Headers.name = 'Vide app';
-            }
-            if (config_1.config.outDir === undefined) {
-                if (fs_1.default.existsSync(`./${$.prototype.name.split('.vide')[0] || 'html'}.html`)) {
-                    fs_1.default.unlinkSync(`./${$.prototype.name.split('.vide')[0] || 'html'}.html`);
+                if (Object.keys(videAttr).includes('router')) {
+                    console.log('   ●'.blue +
+                        ' skipping ' +
+                        $.prototype.name +
+                        ' due to type being router');
                 }
-            }
-            else {
-                if (fs_1.default.existsSync(`${config_1.config.outDir}/${$.prototype.name.split('.vide')[0] || 'html'}.html`)) {
-                    fs_1.default.unlinkSync(`${config_1.config.outDir}/${$.prototype.name.split('.vide')[0]}.html`);
-                }
-            }
-            if (Object.keys(videAttr).includes('router')) {
-                console.log('   ●'.blue +
-                    ' skipping ' +
-                    $.prototype.name +
-                    ' due to type being router');
-            }
-            else {
-                $('Vide')
-                    .get()[0]
-                    .children.forEach((element) => {
-                    element.data = '';
-                });
-                $('Router').remove();
-                const render = $('Vide component')
-                    .remove()
-                    .end()
-                    .children()
-                    .html()
-                    .trim();
-                const fullTemp = `
+                else {
+                    $('Vide')
+                        .get()[0]
+                        .children.forEach((element) => {
+                        element.data = '';
+                    });
+                    $('Router').remove();
+                    const render = $('Vide component')
+                        .remove()
+                        .end()
+                        .children()
+                        .html()
+                        .trim();
+                    const fullTemp = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -107,16 +121,17 @@ ${render}
 </body>
 </html>
 `;
-                if (config_1.config.outDir + '/' === 'undefined/') {
-                    fs_1.default.appendFileSync(`./${$.prototype.name.split('.vide')[0] || 'html'}.html`, fullTemp);
-                }
-                else {
-                    try {
-                        fs_1.default.appendFileSync(config_1.config.outDir +
-                            `/${$.prototype.name.split('.vide')[0] || 'html'}.html`, fullTemp);
+                    if (config_1.config.outDir + '/' === 'undefined/') {
+                        fs_1.default.appendFileSync(`./${$.prototype.name.split('.vide')[0] || 'html'}.html`, fullTemp);
                     }
-                    catch (err) {
-                        console.log('●'.red + ` ${config_1.config.outDir}/ does not exist.`);
+                    else {
+                        try {
+                            fs_1.default.appendFileSync(config_1.config.outDir +
+                                `/${$.prototype.name.split('.vide')[0] || 'html'}.html`, fullTemp);
+                        }
+                        catch (err) {
+                            console.log('●'.red + ` ${config_1.config.outDir}/ does not exist.`);
+                        }
                     }
                 }
             }
@@ -124,4 +139,6 @@ ${render}
     });
     exports.headers = fullHead;
     exports.Components = components;
+    exports.scripts = js;
+    const jsParser = require('./script-parser');
 });

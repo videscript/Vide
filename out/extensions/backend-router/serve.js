@@ -47,22 +47,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             if (route.type == '404') {
                 paths['404'] = {
                     body: func.content,
-                    type: func['content-type'],
+                    type: func['type'],
                     full: route,
                 };
             }
             else {
                 paths[key] = {
                     body: func.content,
-                    type: func['content-type'],
+                    type: func['type'],
                     full: route,
                 };
             }
         }
     });
     let count = 0;
-    http
-        .createServer(async (req, res) => {
+    http.createServer(async (req, res) => {
         const path = req.url;
         res.writeHead(202, { 'Transfer-Encoding': '' });
         if (path.includes('.css')) {
@@ -75,6 +74,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             res.write(fs.readFileSync(config_1.config.outDir + path || '.' + path, 'utf-8'));
         }
         if (path.includes('.jpeg' || '.jpg')) {
+            res.write(fs.readFileSync(config_1.config.outDir + path || '.' + path, 'utf-8'));
+        }
+        if (path.includes('.ttf')) {
             res.write(fs.readFileSync(config_1.config.outDir + path || '.' + path, 'utf-8'));
         }
         if (paths[path] !== undefined) {
@@ -105,7 +107,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         res.end();
         console.log(`\n\nid: ${count} \nstatus:${res.statusCode}\nLoaded path: ${path}\nfrom: ${req.headers.host}\nwith data: ${req.headers['user-agent']}`);
         count++;
-    })
-        .listen(3000);
+    }).listen(3000);
     console.log('●'.blue + ' Web link: http://localhost:3000');
 });
