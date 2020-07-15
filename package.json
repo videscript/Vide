@@ -31,6 +31,7 @@
         "dirty-json": "^0.8.0",
         "eslint": "^7.4.0",
         "mime": "^2.4.6",
+        "ora": "^4.0.4",
         "path": "^0.12.7",
         "transform-css-to-js": "^0.1.1",
         "typescript": "^3.9.5"

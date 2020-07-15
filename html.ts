@@ -15,18 +15,29 @@ interface jsArrray {
     from: string;
 }
 let js: Array<jsArrray> = [];
+let written: Array<string> = [];
 Dom.forEach((Dom: any) => {
     const Headers: any = {};
 
     $.forEach(($: any) => {
         if (Object.keys($('Vide').get()[0].attribs).includes('script')) {
-            console.log(
-                '   ●'.blue + ' compiling JS script: ' + $.prototype.name
-            );
-            js.push({
-                js: $('Vide').text().trim().split('\n'),
-                from: $.prototype.name,
-            });
+            if (
+                js.includes({
+                    js: $('Vide').text().trim().split('\n'),
+                    from: $.prototype.name,
+                })
+            ) {
+                return;
+            } else {
+                console.log(
+                    '   ●'.blue + ' compiling JS script: ' + $.prototype.name
+                );
+                js.push({
+                    js: $('Vide').text().trim().split('\n'),
+                    from: $.prototype.name,
+                });
+                // written.push()
+            }
         } else {
             Dom.get().forEach((element: any, num: number) => {
                 const attr = JSON.parse(JSON.stringify(element.attribs));
@@ -104,12 +115,15 @@ Dom.forEach((Dom: any) => {
                 }
             }
             if (Object.keys(videAttr).includes('router')) {
-                console.log(
-                    '   ●'.blue +
-                        ' skipping ' +
-                        $.prototype.name +
-                        ' due to type being router'
-                );
+                if (written.includes($.prototype.name)) {
+                    console.log(
+                        '   ●'.blue +
+                            ' skipping ' +
+                            $.prototype.name +
+                            ' due to type being router'
+                    );
+                    written.push($.prototype.name);
+                }
             } else {
                 $('Vide')
                     .get()[0]

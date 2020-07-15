@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 const {exec} = require('child_process');
+const ora = require('ora');
+const colors = require('colors');
 const start = new Date();
 let args = process.argv;
 if (args.includes('-html')) {
@@ -16,6 +18,25 @@ if (args.includes('-html')) {
     }
 } else if (args.includes('-browser')) {
     const serve = require('./extensions/client-interface/index');
+} else if (args.includes('-no-verbose')) {
+    const throbber = ora({
+        spinner: {
+            frames: [
+                'Compiling .',
+                'Compiling ..',
+                'Compiling ...',
+                'Compiling ....',
+            ],
+            interval: 200, // Optional
+        },
+    }).start();
+    console.log = () => {};
+    const config = require('./config');
+    const css = require('./css');
+    const components = require('./component');
+    const html = require('./html');
+    const jsParser = require('./script-parser');
+    throbber.stop();
 } else {
     const config = require('./config');
     const css = require('./css');
@@ -33,7 +54,6 @@ if (args.includes('-html')) {
         console.log('');
     }
 }
-
 let end = new Date() - start;
 console.info('Execution time: %dms', end);
 
