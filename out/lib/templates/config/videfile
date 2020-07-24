@@ -1,0 +1,8 @@
+use non-standard
+
+outDir public
+rootDir .
+
+// run {
+//    console.log('This will run after compile')
+//}

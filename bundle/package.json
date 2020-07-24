@@ -8,8 +8,7 @@
     "vide": "src/vide"
   },
   "license": "ISC",
-  "scripts": {
-  },
+  "scripts": {},
   "devDependencies": {
     "@types/node": "^13.11.1",
     "typescript": "^3.9.5"

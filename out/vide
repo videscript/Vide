@@ -3,6 +3,8 @@
 const {exec} = require('child_process');
 const ora = require('ora');
 const colors = require('colors');
+const ncp = require('ncp').ncp;
+
 const start = new Date();
 let args = process.argv;
 if (args.includes('-html')) {
@@ -37,6 +39,20 @@ if (args.includes('-html')) {
     const html = require('./html');
     const jsParser = require('./script-parser');
     throbber.stop();
+} else if (args.includes('-create')) {
+    const indexOf = args.indexOf('-create');
+    const arg = args[indexOf + 1];
+    if (arg.trim().toLowerCase() == 'init') {
+        ncp('./lib/templates/config', '', () => {
+            console.log('●'.blue + ' created config');
+        });
+    } else if (arg.trim().toLowerCase() == 'example') {
+        ncp('./lib/templates/default', '', () => {
+            console.log('●'.blue + ' created example project');
+        });
+    } else {
+        console.log('●'.red + ' invalid template name');
+    }
 } else {
     const config = require('./config');
     const css = require('./css');

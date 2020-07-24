@@ -24,15 +24,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const components = {};
     const fullHead = [];
     let js = [];
+    let written = [];
     index_1.Dom.forEach((Dom) => {
         const Headers = {};
         index_1.$.forEach(($) => {
             if (Object.keys($('Vide').get()[0].attribs).includes('script')) {
-                console.log('   ●'.blue + ' compiling JS script: ' + $.prototype.name);
-                js.push({
+                if (js.includes({
                     js: $('Vide').text().trim().split('\n'),
                     from: $.prototype.name,
-                });
+                })) {
+                    return;
+                }
+                else {
+                    console.log('   ●'.blue + ' compiling JS script: ' + $.prototype.name);
+                    js.push({
+                        js: $('Vide').text().trim().split('\n'),
+                        from: $.prototype.name,
+                    });
+                    // written.push()
+                }
             }
             else {
                 Dom.get().forEach((element, num) => {
@@ -89,10 +99,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                     }
                 }
                 if (Object.keys(videAttr).includes('router')) {
-                    console.log('   ●'.blue +
-                        ' skipping ' +
-                        $.prototype.name +
-                        ' due to type being router');
+                    if (written.includes($.prototype.name)) {
+                        console.log('   ●'.blue +
+                            ' skipping ' +
+                            $.prototype.name +
+                            ' due to type being router');
+                        written.push($.prototype.name);
+                    }
                 }
                 else {
                     $('Vide')
