@@ -1,0 +1,22 @@
+name: ts compile
+
+on:
+  push:
+    branches: 
+      - master
+
+jobs:
+  ts_compile:
+    name: Compile typescript
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node_version: ['11','13','14']
+    steps:
+      - name: Node
+        with:
+          node-version: ${{ matrix.node_version }}
+      - name: build
+        run: |
+          npm install
+          npm run build
