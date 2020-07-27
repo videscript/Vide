@@ -23,8 +23,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         const callback = new Function(route.callback);
         const func = callback();
         if (func == undefined) {
-            const html = fs.readFileSync(config_1.config.outDir + '/' + route.dest.split('.vide')[0] + '.html' ||
-                './' + route.dest.split('.vide')[0] + '.html', 'utf-8');
+            const html = fs.readFileSync(`${config_1.config.outDir}/${route.dest.split('.vide')[0]}.html`
+                || `./${route.dest.split('.vide')[0]}.html`, 'utf-8');
             if (route.type == '404') {
                 paths['404'] = {
                     body: html,
@@ -43,21 +43,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             }
             // return "Bad";
         }
+        else if (route.type == '404') {
+            paths['404'] = {
+                body: func.content,
+                type: func.type,
+                full: route,
+            };
+        }
         else {
-            if (route.type == '404') {
-                paths['404'] = {
-                    body: func.content,
-                    type: func['type'],
-                    full: route,
-                };
-            }
-            else {
-                paths[key] = {
-                    body: func.content,
-                    type: func['type'],
-                    full: route,
-                };
-            }
+            paths[key] = {
+                body: func.content,
+                type: func.type,
+                full: route,
+            };
         }
     });
     let count = 0;
@@ -65,19 +63,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         const path = req.url;
         res.writeHead(202, { 'Transfer-Encoding': '' });
         if (path.includes('.css')) {
-            res.write(fs.readFileSync(config_1.config.outDir + path || '.' + path, 'utf-8'));
+            res.write(fs.readFileSync(config_1.config.outDir + path || `.${path}`, 'utf-8'));
         }
         if (path.includes('.js')) {
-            res.write(fs.readFileSync(config_1.config.outDir + path || '.' + path, 'utf-8'));
+            res.write(fs.readFileSync(config_1.config.outDir + path || `.${path}`, 'utf-8'));
         }
         if (path.includes('.png' || '.PNG')) {
-            res.write(fs.readFileSync(config_1.config.outDir + path || '.' + path, 'utf-8'));
+            res.write(fs.readFileSync(config_1.config.outDir + path || `.${path}`, 'utf-8'));
         }
         if (path.includes('.jpeg' || '.jpg')) {
-            res.write(fs.readFileSync(config_1.config.outDir + path || '.' + path, 'utf-8'));
+            res.write(fs.readFileSync(config_1.config.outDir + path || `.${path}`, 'utf-8'));
         }
         if (path.includes('.ttf')) {
-            res.write(fs.readFileSync(config_1.config.outDir + path || '.' + path, 'utf-8'));
+            res.write(fs.readFileSync(config_1.config.outDir + path || `.${path}`, 'utf-8'));
         }
         if (paths[path] !== undefined) {
             res.writeHead(202, { 'Content-Type': paths[path].type });
@@ -108,5 +106,5 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         console.log(`\n\nid: ${count} \nstatus:${res.statusCode}\nLoaded path: ${path}\nfrom: ${req.headers.host}\nwith data: ${req.headers['user-agent']}`);
         count++;
     }).listen(3000);
-    console.log('●'.blue + ' Web link: http://localhost:3000');
+    console.log(`${'●'.blue} Web link: http://localhost:3000`);
 });

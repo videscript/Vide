@@ -18,7 +18,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const fs_1 = __importDefault(require("fs"));
     const dJSON = require('dirty-json');
     const colors = require('colors');
-    console.log('●'.blue + ' Reading config');
+    console.log(`${'●'.blue} Reading config`);
     let executable;
     const walkSync = (dir, filelist = []) => {
         fs_1.default.readdirSync(dir).forEach((file) => {
@@ -43,7 +43,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         throw 'Two videfiles detected expected one.';
     }
     let Config;
-    const unproper = fs_1.default.readFileSync('./' + supported[0], 'utf-8');
+    const unproper = fs_1.default.readFileSync(`./${supported[0]}`, 'utf-8');
     if (unproper.includes('use non-standard')) {
         const lex = unproper.split('\n');
         lex.shift();
@@ -54,23 +54,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 lex.splice(num, 1);
             }
             else if (tok.includes('run {')) {
-                const endLine = lex.filter((i) => {
-                    return i === '}';
-                });
+                const endLine = lex.filter((i) => i === '}');
                 const end = lex.indexOf(endLine[0]);
-                const firstLine = lex.filter((i) => {
-                    return i === 'run {';
-                })[0];
+                const firstLine = lex.filter((i) => i === 'run {')[0];
                 const innerTokens = lex.slice(lex.indexOf(firstLine), end);
                 innerTokens.splice(0, 1);
-                const final = innerTokens.map(item => item.trim());
+                const final = innerTokens.map((item) => item.trim());
                 const render = final.join('\n');
                 executable = new Function(render);
             }
             else {
                 const func = tok.split(' ');
                 if (func[0] === '') {
-                    return;
                 }
                 else {
                     const build = {

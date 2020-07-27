@@ -18,7 +18,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const colors = require('colors');
     const cheerio = require('cheerio');
     const htmlparser2 = require('htmlparser2');
-    console.log('●'.blue + ' parsing files');
+    console.log(`${'●'.blue} parsing files`);
     const cParse = require('transform-css-to-js');
     let hello;
     try {
@@ -28,12 +28,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         throw 'Root directory stated in config not found.';
     }
     const files = [];
-    hello.forEach(file => {
+    hello.forEach((file) => {
         if (file.includes('.vide')) {
             files.push(file);
         }
         else {
-            return;
         }
     });
     if (files.length === 0) {
@@ -47,10 +46,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         const point = files[i];
         let file;
         if (config_1.config.rootDir !== undefined) {
-            file = fs_1.default.readFileSync(config_1.config.rootDir + '/' + point, 'utf-8').trim();
+            file = fs_1.default.readFileSync(`${config_1.config.rootDir}/${point}`, 'utf-8').trim();
         }
         else {
-            file = fs_1.default.readFileSync('./' + point, 'utf-8').trim();
+            file = fs_1.default.readFileSync(`./${point}`, 'utf-8').trim();
         }
         const DOM = htmlparser2.parseDOM(file);
         const $ = cheerio.load(DOM);

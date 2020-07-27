@@ -7,39 +7,38 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "./config", "./index", "fs", "process"], factory);
+        define(["require", "exports", "fs", "process", "./config", "./index"], factory);
     }
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.scripts = exports.Components = exports.headers = void 0;
-    const config_1 = require("./config");
-    const index_1 = require("./index");
     const fs_1 = __importDefault(require("fs"));
     const process_1 = require("process");
+    const config_1 = require("./config");
+    const index_1 = require("./index");
     const colors = require('colors');
-    console.log('●'.blue + ' building html');
+    console.log(`${'●'.blue} building html`);
     const domCollection = [];
     let col;
     const components = {};
     const fullHead = [];
-    let js = [];
-    let written = [];
+    const js = [];
+    const written = [];
     index_1.Dom.forEach((Dom) => {
         const Headers = {};
         index_1.$.forEach(($) => {
             if (Object.keys($('Vide').get()[0].attribs).includes('script')) {
                 if (js.includes({
                     js: $('Vide').text().trim().split('\n'),
-                    from: $.prototype.name,
+                    from: $.prototype.name
                 })) {
-                    return;
                 }
                 else {
-                    console.log('   ●'.blue + ' compiling JS script: ' + $.prototype.name);
+                    console.log(`${'   ●'.blue} compiling JS script: ${$.prototype.name}`);
                     js.push({
                         js: $('Vide').text().trim().split('\n'),
-                        from: $.prototype.name,
+                        from: $.prototype.name
                     });
                     // written.push()
                 }
@@ -53,7 +52,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                             attribs: element.attribs,
                             type: element.type,
                             'tag-name': element.name,
-                            length: element.children.length,
+                            length: element.children.length
                         };
                     }
                     else {
@@ -63,19 +62,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                             'tag-name': element.name,
                             innerText: element.children[0].data,
                             fullText: index_1.Clean.filter((r) => r(`component[name=${element.attribs.name}]`).html() != null)[0],
-                            length: element.children.length,
+                            length: element.children.length
                         };
                     }
                     domCollection.push(col);
                     if (col['tag-name'] === 'component') {
                         if (col.attribs.name === undefined) {
-                            console.log('   ● '.red +
-                                'Expected name attribute instead got undefined');
+                            console.log(`${'   ● '.red}Expected name attribute instead got undefined`);
                             process_1.exit();
                         }
                         if (col.attribs.type === undefined) {
-                            console.log('   ● '.red +
-                                'Expected type attribute instead got undefined');
+                            console.log(`${'   ● '.red}Expected type attribute instead got undefined`);
                             process_1.exit();
                         }
                         components[col.attribs.name] = col;
@@ -93,17 +90,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                         fs_1.default.unlinkSync(`./${$.prototype.name.split('.vide')[0] || 'html'}.html`);
                     }
                 }
-                else {
-                    if (fs_1.default.existsSync(`${config_1.config.outDir}/${$.prototype.name.split('.vide')[0] || 'html'}.html`)) {
-                        fs_1.default.unlinkSync(`${config_1.config.outDir}/${$.prototype.name.split('.vide')[0]}.html`);
-                    }
+                else if (fs_1.default.existsSync(`${config_1.config.outDir}/${$.prototype.name.split('.vide')[0] || 'html'}.html`)) {
+                    fs_1.default.unlinkSync(`${config_1.config.outDir}/${$.prototype.name.split('.vide')[0]}.html`);
                 }
                 if (Object.keys(videAttr).includes('router')) {
                     if (written.includes($.prototype.name)) {
-                        console.log('   ●'.blue +
-                            ' skipping ' +
-                            $.prototype.name +
-                            ' due to type being router');
+                        console.log(`${'   ●'.blue} skipping ${$.prototype.name} due to type being router`);
                         written.push($.prototype.name);
                     }
                 }
@@ -114,12 +106,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                         element.data = '';
                     });
                     $('Router').remove();
-                    const render = $('Vide component')
-                        .remove()
-                        .end()
-                        .children()
-                        .html()
-                        .trim();
+                    const render = $('Vide component').remove().end().children().html().trim();
                     const fullTemp = `
 <!DOCTYPE html>
 <html lang="en">
@@ -134,16 +121,15 @@ ${render}
 </body>
 </html>
 `;
-                    if (config_1.config.outDir + '/' === 'undefined/') {
+                    if (`${config_1.config.outDir}/` === 'undefined/') {
                         fs_1.default.appendFileSync(`./${$.prototype.name.split('.vide')[0] || 'html'}.html`, fullTemp);
                     }
                     else {
                         try {
-                            fs_1.default.appendFileSync(config_1.config.outDir +
-                                `/${$.prototype.name.split('.vide')[0] || 'html'}.html`, fullTemp);
+                            fs_1.default.appendFileSync(`${config_1.config.outDir}/${$.prototype.name.split('.vide')[0] || 'html'}.html`, fullTemp);
                         }
                         catch (err) {
-                            console.log('●'.red + ` ${config_1.config.outDir}/ does not exist.`);
+                            console.log(`${'●'.red} ${config_1.config.outDir}/ does not exist.`);
                         }
                     }
                 }

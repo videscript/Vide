@@ -36,7 +36,7 @@ TEMPLATE SYNTAX: $javascript variable$
         constructor() {
             this.event = this.main();
             const element = this.event.target;
-            const event = this.event.event;
+            const { event } = this.event;
             const callString = this.event.callback.toString();
             const tempString = `
         document.querySelector(${element}).addEventListener(${event}, ${callString})
@@ -45,9 +45,8 @@ TEMPLATE SYNTAX: $javascript variable$
             this.build();
         }
         build() {
-            tokens.forEach(item => {
+            tokens.forEach((item) => {
                 if (fulltemp.includes(item)) {
-                    return;
                 }
                 else {
                     fulltemp += item;
