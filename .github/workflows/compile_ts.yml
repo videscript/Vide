@@ -15,5 +15,4 @@ jobs:
     steps:
       - name: build
         run: |
-          npm install
           npm run build
