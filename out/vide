@@ -1,74 +1,68 @@
 #!/usr/bin/env node
 
-const {exec} = require('child_process');
+const { exec } = require('child_process');
 const ora = require('ora');
-const colors = require('colors');
-const ncp = require('ncp').ncp;
+// eslint-disable-line global-require
 
 const start = new Date();
 let args = process.argv;
 if (args.includes('-html')) {
-    const html = require('./html');
+  const html = require('./html');
 } else if (args.includes('-css')) {
-    const css = require('./css');
+  const css = require('./css');
 } else if (args.includes('-test')) {
-    const pos = args.indexOf('-test');
-    if (args[pos + 1] == 'router') {
-        const router = require('./extensions/backend-router/route');
-    } else if (args[pos + 1] == 'serve') {
-        const serve = require('./extensions/backend-router/serve');
-    }
+  const pos = args.indexOf('-test');
+  if (args[pos + 1] == 'router') {
+    const router = require('./extensions/backend-router/route');
+  } else if (args[pos + 1] == 'serve') {
+    const serve = require('./extensions/backend-router/serve');
+  }
 } else if (args.includes('-browser')) {
-    const serve = require('./extensions/client-interface/index');
+  const serve = require('./extensions/client-interface/index');
 } else if (args.includes('-no-verbose')) {
-    const throbber = ora({
-        spinner: {
-            frames: [
-                'Compiling .',
-                'Compiling ..',
-                'Compiling ...',
-                'Compiling ....',
-            ],
-            interval: 200, // Optional
-        },
-    }).start();
-    console.log = () => {};
-    const config = require('./config');
-    const css = require('./css');
-    const components = require('./component');
-    const html = require('./html');
-    const jsParser = require('./script-parser');
-    throbber.stop();
+  const throbber = ora({
+    spinner: {
+      frames: ['Compiling .', 'Compiling ..', 'Compiling ...', 'Compiling ....'],
+      interval: 200 // Optional
+    }
+  }).start();
+  console.log = () => {};
+  const config = require('./config');
+  const css = require('./css');
+  const components = require('./component');
+  const html = require('./html');
+  const jsParser = require('./script-parser');
+  throbber.stop();
 } else if (args.includes('-create')) {
-    const indexOf = args.indexOf('-create');
-    const arg = args[indexOf + 1];
-    if (arg.trim().toLowerCase() == 'init') {
-        ncp('./lib/templates/config', '', () => {
-            console.log('●'.blue + ' created config');
-        });
-    } else if (arg.trim().toLowerCase() == 'example') {
-        ncp('./lib/templates/default', '', () => {
-            console.log('●'.blue + ' created example project');
-        });
-    } else {
-        console.log('●'.red + ' invalid template name');
-    }
+  const indexOf = args.indexOf('-create');
+  const arg = args[indexOf + 1];
+  if (arg.trim().toLowerCase() == 'init') {
+    ncp('./lib/templates/config', '', () => {
+      console.log('●'.blue + ' created config');
+    });
+  } else if (arg.trim().toLowerCase() == 'example') {
+    ncp('./lib/templates/default', '', () => {
+      console.log('●'.blue + ' created example project');
+    });
+  } else {
+    console.log('●'.red + ' invalid template name');
+  }
 } else {
-    const config = require('./config');
-    const css = require('./css');
-    const components = require('./component');
-    const html = require('./html');
-    const jsParser = require('./script-parser');
+  const config = require('./config');
+  const css = require('./css');
+  const components = require('./component');
+  const html = require('./html');
+  const jsParser = require('./script-parser');
 
-    if (config.config.router == 'true') {
-        const router = require('./extensions/backend-router/route');
-        const serve = require('./extensions/backend-router/serve');
-    }
-    if (config.run != undefined) {
-        console.log('');
-        config.run();
-        console.log('');
-    }
+  if (config.config.router == 'true') {
+    const router = require('./extensions/backend-router/route');
+    const serve = require('./extensions/backend-router/serve');
+  }
+  if (config.run != undefined) {
+    console.log('');
+    config.run();
+    console.log('');
+  }
 }
 let end = new Date() - start;
 console.info('Execution time: %dms', end);
