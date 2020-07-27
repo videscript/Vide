@@ -15,10 +15,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     exports.Clean = exports.$ = exports.Dom = exports.Css = void 0;
     const fs_1 = __importDefault(require("fs"));
     const config_1 = require("./config");
-    const colors = require('colors');
     const cheerio = require('cheerio');
     const htmlparser2 = require('htmlparser2');
-    console.log(`${'●'.blue} parsing files`);
+    const chalk = require('chalk');
+    console.log(`${chalk.blue('●')} parsing files`);
     const cParse = require('transform-css-to-js');
     let hello;
     try {

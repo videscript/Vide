@@ -3,10 +3,9 @@ import path from 'path';
 import fs from 'fs';
 
 const dJSON = require('dirty-json');
-const colors = require('colors');
-
-console.log(`${'●'.blue} Reading config`);
-let executable: Function;
+const chalk = require('chalk');
+console.log(`${chalk.blue('●')} Reading config`);
+let executable: Function = () => {};
 const walkSync = (dir: string, filelist: Array<string> = []) => {
   fs.readdirSync(dir).forEach((file: string) => {
     filelist = fs.statSync(path.join(dir, file)).isDirectory()
@@ -42,7 +41,7 @@ if (unproper.includes('use non-standard')) {
     } else if (tok.includes('run {')) {
       const endLine: Array<string> = lex.filter((i: any) => i === '}');
       const end = lex.indexOf(endLine[0]);
-      const firstLine: Array<string> = lex.filter((i: any) => i === 'run {')[0];
+      const firstLine: string = lex.filter((i: any) => i === 'run {')[0];
       const innerTokens = lex.slice(lex.indexOf(firstLine), end);
       innerTokens.splice(0, 1);
       const final: Array<string> = innerTokens.map((item) => item.trim());
@@ -51,12 +50,11 @@ if (unproper.includes('use non-standard')) {
     } else {
       const func: Array<string> = tok.split(' ');
       if (func[0] === '') {
-
       } else {
         const build: Record<string, any> = {
           func: func[0],
           args: func[1],
-          line: num,
+          line: num
         };
         tokens.push(build);
       }
@@ -78,7 +76,7 @@ if (unproper.includes('use non-standard')) {
   try {
     Config = dJSON.parse(proper);
   } catch (err) {
-    throw 'Using non standard library in standard module.';
+    console.log(`${chalk.red('   ●')} Using non standard library in standard module.`);
   }
 }
 export const config = Config;

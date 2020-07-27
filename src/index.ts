@@ -1,12 +1,10 @@
 import fs from 'fs';
 import { config } from './config';
 
-const colors = require('colors');
-
 const cheerio = require('cheerio');
 const htmlparser2 = require('htmlparser2');
-
-console.log(`${'●'.blue} parsing files`);
+const chalk = require('chalk');
+console.log(`${chalk.blue('●')} parsing files`);
 
 const cParse = require('transform-css-to-js');
 

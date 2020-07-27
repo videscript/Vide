@@ -25,7 +25,7 @@ let fulltemp = '';
 
 class videEvent {
   event: any;
-
+  main: any;
   // main!: Function;
   constructor() {
     this.event = this.main();
@@ -42,7 +42,6 @@ class videEvent {
   build() {
     tokens.forEach((item) => {
       if (fulltemp.includes(item)) {
-
       } else {
         fulltemp += item;
       }

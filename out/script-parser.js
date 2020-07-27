@@ -12,17 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    // @ts-ignore: Unreachable code error
     const jshint_1 = require("jshint");
     const process_1 = require("process");
     const fs_1 = __importDefault(require("fs"));
     const html_1 = require("./html");
     const config_1 = require("./config");
+    const chalk = require('chalk');
     html_1.scripts.forEach((js) => {
         jshint_1.JSHINT(js.js, { esnext: true });
         const res = jshint_1.JSHINT.data();
         if (res.errors) {
             res.errors.forEach((err) => {
-                console.log(`${'       ●'.red} ERROR: ${err.line + 1}:${err.character} - ${err.raw}`);
+                console.log(`${chalk.red('       ●')} ERROR: ${err.line + 1}:${err.character} - ${err.raw}`);
             });
             process_1.exit();
         }

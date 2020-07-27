@@ -15,9 +15,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const fs_1 = __importDefault(require("fs"));
     const index_1 = require("./index");
     const config_1 = require("./config");
+    const chalk = require('chalk');
     let pointer;
-    const colors = require('colors');
-    console.log(`${'●'.blue} building css`);
+    console.log(`${chalk.blue('●')} building css`);
     const toK = (str) => str &&
         str
             .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
@@ -63,7 +63,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                     fs_1.default.appendFileSync(`${config_1.config.outDir}/css-${fname}.css`, fullTemp);
                 }
                 catch (err) {
-                    console.log(`${'●'.red} ${config_1.config.outDir}/ does not exist.`);
+                    console.log(`${chalk.red('●')} ${config_1.config.outDir}/ does not exist.`);
                 }
             }
         });

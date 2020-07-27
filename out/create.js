@@ -1,7 +1,7 @@
 "use strict";
 const { ncp } = require('ncp');
-const path = require('path').dirname(require.main.filename);
-const colors = require('colors');
+const chalk = require('chalk');
+const path = require('path').dirname(require?.main?.filename);
 const main = (args) => {
     const indexOf = args.indexOf('-create');
     const arg = args[indexOf + 1];
@@ -10,19 +10,19 @@ const main = (args) => {
             if (err) {
                 console.log(err);
             }
-            console.log(`${'●'.blue} created config`);
+            console.log(`${chalk.blue('●')} created config`);
         });
     }
     else if (arg.trim().toLowerCase() == 'example') {
         ncp(`${path}/bin/lib/templates/default`, '.', (err) => {
             if (err) {
-                console.log(err);
+                console.log(chalk.red('● ') + err);
             }
-            console.log(`${'●'.blue} created example project`);
+            console.log(`${chalk.blue('●')} created example project`);
         });
     }
     else {
-        console.log(`${'●'.red} invalid template name`);
+        console.log(`${chalk.red('●')} invalid template name`);
     }
 };
 module.exports = main;

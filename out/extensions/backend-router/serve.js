@@ -16,21 +16,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const config_1 = require("../../config");
     const http = require('http');
     const fs = require('fs');
-    const colors = require('colors');
+    const chalk = require('chalk');
     const paths = {};
     Object.keys(route_1.default).forEach((key) => {
         const route = route_1.default[key];
         const callback = new Function(route.callback);
         const func = callback();
         if (func == undefined) {
-            const html = fs.readFileSync(`${config_1.config.outDir}/${route.dest.split('.vide')[0]}.html`
-                || `./${route.dest.split('.vide')[0]}.html`, 'utf-8');
+            const html = fs.readFileSync(`${config_1.config.outDir}/${route.dest.split('.vide')[0]}.html` ||
+                `./${route.dest.split('.vide')[0]}.html`, 'utf-8');
             if (route.type == '404') {
                 paths['404'] = {
                     body: html,
                     type: 'text/html',
                     file: route.dest,
-                    full: route,
+                    full: route
                 };
             }
             else {
@@ -38,7 +38,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                     body: html,
                     type: 'text/html',
                     file: route.dest,
-                    full: route,
+                    full: route
                 };
             }
             // return "Bad";
@@ -47,19 +47,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             paths['404'] = {
                 body: func.content,
                 type: func.type,
-                full: route,
+                full: route
             };
         }
         else {
             paths[key] = {
                 body: func.content,
                 type: func.type,
-                full: route,
+                full: route
             };
         }
     });
     let count = 0;
-    http.createServer(async (req, res) => {
+    http
+        .createServer(async (req, res) => {
         const path = req.url;
         res.writeHead(202, { 'Transfer-Encoding': '' });
         if (path.includes('.css')) {
@@ -105,6 +106,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         res.end();
         console.log(`\n\nid: ${count} \nstatus:${res.statusCode}\nLoaded path: ${path}\nfrom: ${req.headers.host}\nwith data: ${req.headers['user-agent']}`);
         count++;
-    }).listen(3000);
-    console.log(`${'●'.blue} Web link: http://localhost:3000`);
+    })
+        .listen(3000);
+    console.log(`${chalk.blue('●')} Web link: http://localhost:3000`);
 });

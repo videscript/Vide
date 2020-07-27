@@ -17,9 +17,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const path_1 = __importDefault(require("path"));
     const fs_1 = __importDefault(require("fs"));
     const dJSON = require('dirty-json');
-    const colors = require('colors');
-    console.log(`${'●'.blue} Reading config`);
-    let executable;
+    const chalk = require('chalk');
+    console.log(`${chalk.blue('●')} Reading config`);
+    let executable = () => { };
     const walkSync = (dir, filelist = []) => {
         fs_1.default.readdirSync(dir).forEach((file) => {
             filelist = fs_1.default.statSync(path_1.default.join(dir, file)).isDirectory()
@@ -71,7 +71,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                     const build = {
                         func: func[0],
                         args: func[1],
-                        line: num,
+                        line: num
                     };
                     tokens.push(build);
                 }
@@ -96,7 +96,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             Config = dJSON.parse(proper);
         }
         catch (err) {
-            throw 'Using non standard library in standard module.';
+            console.log(`${chalk.red('   ●')} Using non standard library in standard module.`);
         }
     }
     exports.config = Config;

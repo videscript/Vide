@@ -1,11 +1,11 @@
 import fs from 'fs';
 import { Css, $ } from './index';
 import { config } from './config';
+const chalk = require('chalk');
 
 let pointer: string;
-const colors = require('colors');
 
-console.log(`${'●'.blue} building css`);
+console.log(`${chalk.blue('●')} building css`);
 const toK = (str: any) =>
   str &&
   str
@@ -48,7 +48,7 @@ Css.forEach((css: any) => {
       try {
         fs.appendFileSync(`${config.outDir}/css-${fname}.css`, fullTemp);
       } catch (err) {
-        console.log(`${'●'.red} ${config.outDir}/ does not exist.`);
+        console.log(`${chalk.red('●')} ${config.outDir}/ does not exist.`);
       }
     }
   });

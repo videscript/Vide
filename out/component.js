@@ -17,11 +17,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const index_1 = require("./index");
     const html_1 = require("./html");
     const config_1 = require("./config");
-    const colors = require('colors');
+    const chalk = require('chalk');
     const comps = html_1.Components;
     const keys = Object.keys(comps);
     const valid = [];
-    console.log(`${'●'.blue} Compiling components`);
+    console.log(`${chalk.blue('●')} Compiling components`);
     index_1.Clean.forEach(($) => {
         const comps = $('component');
         Object.keys(comps).forEach((compKey) => {
@@ -37,7 +37,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     valid.forEach((attr) => {
         const comp = comps[attr.name];
         comp.from = attr.from;
-        console.log(`${'   ●'.blue} Built component named: ${attr.name}`);
+        console.log(`${chalk.blue('   ●')} Built component named: ${attr.name}`);
     });
     // import
     const stateful = [];
@@ -48,13 +48,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const req = el.attribs.name;
             const data = comps[req];
             if (data == undefined) {
-                console.log(`${'   ●'.red} The component ${req} does not exist: ${$.prototype.name}`);
+                console.log(`${chalk.red('   ●')} The component ${req} does not exist: ${$.prototype.name}`);
                 process_1.exit();
             }
             if (data.attribs.metadata == 'state') {
-                const inner = data
-                    .fullText(`component[name=${data.attribs.name}]`)
-                    .html();
+                const inner = data.fullText(`component[name=${data.attribs.name}]`).html();
                 data.inner = inner.trim();
                 delete data.fullText;
                 stateful.push(data);
@@ -85,9 +83,7 @@ ${data.innerText}`;
                     }
                 }
                 if (data.attribs.type == 'html') {
-                    const inner = data
-                        .fullText(`component[name=${data.attribs.name}]`)
-                        .html();
+                    const inner = data.fullText(`component[name=${data.attribs.name}]`).html();
                     const Import = $(`import[name=${data.attribs.name}]`);
                     const renderString = `${$.html(Import).trim().split('</import>')[0]}</import>`;
                     $.prototype.name = $.prototype.name.split('.vide')[0];
@@ -107,6 +103,6 @@ ${data.innerText}`;
             }
         });
     });
-    console.log(`${'   ●'.blue} Rendered imports`);
+    console.log(`${chalk.blue('   ●')} Rendered imports`);
     exports.default = stateful;
 });

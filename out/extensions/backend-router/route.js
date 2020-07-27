@@ -13,8 +13,8 @@
     const index_1 = require("../../index");
     const routes = {};
     let index;
-    const colors = require('colors');
-    console.log(`${'●'.blue} compiling routes`);
+    const chalk = require('chalk');
+    console.log(`${chalk.blue('●')} compiling routes`);
     index_1.Clean.forEach((r, num) => {
         const file = r('Router').html();
         if (file == null) {
@@ -25,7 +25,7 @@
     });
     const router = index_1.Clean[index];
     if (router == undefined) {
-        console.log('Router enabled but no router found');
+        console.log(`${chalk.red('   ●')} Router enabled but no router found`);
         process_1.exit();
     }
     const { children } = router('Router').get()[0];
@@ -35,29 +35,29 @@
         }
         else if (route[0] === undefined) {
             if (element.attribs.path === '*') {
-                console.log(`${'●'.blue}    built route: ${element.attribs.type}`);
+                console.log(`${chalk.blue('●')}    built route: ${element.attribs.type}`);
             }
             else {
-                console.log(`${'●'.blue}    built route: ${element.attribs.path}`);
+                console.log(`${chalk.blue('●')}    built route: ${element.attribs.path}`);
             }
             routes[element.attribs.path] = {
                 path: element.attribs.path,
                 dest: element.attribs.dest,
-                type: element.attribs.type,
+                type: element.attribs.type
             };
         }
         else {
             if (element.attribs.path == '*') {
-                console.log(`${'●'.blue}    built route: ${element.attribs.type}`);
+                console.log(`${chalk.blue('●')}    built route: ${element.attribs.type}`);
             }
             else {
-                console.log(`${'●'.blue}    built route: ${element.attribs.path}`);
+                console.log(`${chalk.blue('●')}    built route: ${element.attribs.path}`);
             }
             routes[element.attribs.path] = {
                 callback: route[0].data,
                 path: element.attribs.path,
                 dest: element.attribs.dest,
-                type: element.attribs.type,
+                type: element.attribs.type
             };
         }
     });

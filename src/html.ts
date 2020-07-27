@@ -3,9 +3,9 @@ import { exit } from 'process';
 import { config } from './config';
 import { Dom, $, Clean } from './index';
 
-const colors = require('colors');
+const chalk = require('chalk');
 
-console.log(`${'●'.blue} building html`);
+console.log(`${chalk.blue('●')} building html`);
 
 const domCollection: Array<any> = [];
 let col: any;
@@ -29,7 +29,7 @@ Dom.forEach((Dom: any) => {
         })
       ) {
       } else {
-        console.log(`${'   ●'.blue} compiling JS script: ${$.prototype.name}`);
+        console.log(`${chalk.blue('   ●')} compiling JS script: ${$.prototype.name}`);
         js.push({
           js: $('Vide').text().trim().split('\n'),
           from: $.prototype.name
@@ -63,11 +63,11 @@ Dom.forEach((Dom: any) => {
         domCollection.push(col);
         if (col['tag-name'] === 'component') {
           if (col.attribs.name === undefined) {
-            console.log(`${'   ● '.red}Expected name attribute instead got undefined`);
+            console.log(`${chalk.red('   ● ')}Expected name attribute instead got undefined`);
             exit();
           }
           if (col.attribs.type === undefined) {
-            console.log(`${'   ● '.red}Expected type attribute instead got undefined`);
+            console.log(`${chalk.red('   ● ')}Expected type attribute instead got undefined`);
             exit();
           }
           components[col.attribs.name] = col;
@@ -90,7 +90,9 @@ Dom.forEach((Dom: any) => {
       }
       if (Object.keys(videAttr).includes('router')) {
         if (written.includes($.prototype.name)) {
-          console.log(`${'   ●'.blue} skipping ${$.prototype.name} due to type being router`);
+          console.log(
+            `${chalk.blue('   ●')} skipping ${$.prototype.name} due to type being router`
+          );
           written.push($.prototype.name);
         }
       } else {
@@ -124,7 +126,7 @@ ${render}
               fullTemp
             );
           } catch (err) {
-            console.log(`${'●'.red} ${config.outDir}/ does not exist.`);
+            console.log(`${chalk.red('●')} ${config.outDir}/ does not exist.`);
           }
         }
       }

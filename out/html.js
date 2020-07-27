@@ -17,8 +17,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const process_1 = require("process");
     const config_1 = require("./config");
     const index_1 = require("./index");
-    const colors = require('colors');
-    console.log(`${'●'.blue} building html`);
+    const chalk = require('chalk');
+    console.log(`${chalk.blue('●')} building html`);
     const domCollection = [];
     let col;
     const components = {};
@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 })) {
                 }
                 else {
-                    console.log(`${'   ●'.blue} compiling JS script: ${$.prototype.name}`);
+                    console.log(`${chalk.blue('   ●')} compiling JS script: ${$.prototype.name}`);
                     js.push({
                         js: $('Vide').text().trim().split('\n'),
                         from: $.prototype.name
@@ -68,11 +68,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                     domCollection.push(col);
                     if (col['tag-name'] === 'component') {
                         if (col.attribs.name === undefined) {
-                            console.log(`${'   ● '.red}Expected name attribute instead got undefined`);
+                            console.log(`${chalk.red('   ● ')}Expected name attribute instead got undefined`);
                             process_1.exit();
                         }
                         if (col.attribs.type === undefined) {
-                            console.log(`${'   ● '.red}Expected type attribute instead got undefined`);
+                            console.log(`${chalk.red('   ● ')}Expected type attribute instead got undefined`);
                             process_1.exit();
                         }
                         components[col.attribs.name] = col;
@@ -95,7 +95,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 }
                 if (Object.keys(videAttr).includes('router')) {
                     if (written.includes($.prototype.name)) {
-                        console.log(`${'   ●'.blue} skipping ${$.prototype.name} due to type being router`);
+                        console.log(`${chalk.blue('   ●')} skipping ${$.prototype.name} due to type being router`);
                         written.push($.prototype.name);
                     }
                 }
@@ -129,7 +129,7 @@ ${render}
                             fs_1.default.appendFileSync(`${config_1.config.outDir}/${$.prototype.name.split('.vide')[0] || 'html'}.html`, fullTemp);
                         }
                         catch (err) {
-                            console.log(`${'●'.red} ${config_1.config.outDir}/ does not exist.`);
+                            console.log(`${chalk.red('●')} ${config_1.config.outDir}/ does not exist.`);
                         }
                     }
                 }
