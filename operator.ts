@@ -1,4 +1,4 @@
-/* 
+/*
 
 REGULAR EXPRESSION FOR MATCHING TEMPLATES: \$(\s*\w+\s*)\$
 TEMPLATE SYNTAX: $javascript variable$
@@ -24,28 +24,30 @@ const tokens: Array<string> = [];
 let fulltemp = '';
 
 class videEvent {
-    event: any;
-    // main!: Function;
-    constructor() {
-        this.event = this.main();
-        const element: string = this.event.target;
-        const event: string = this.event.event;
-        const callString: string = this.event.callback.toString();
-        const tempString: string = `
+  event: any;
+
+  // main!: Function;
+  constructor() {
+    this.event = this.main();
+    const element: string = this.event.target;
+    const { event } = this.event;
+    const callString: string = this.event.callback.toString();
+    const tempString: string = `
         document.querySelector(${element}).addEventListener(${event}, ${callString})
         `;
-        tokens.push(tempString);
-        this.build();
-    }
-    build() {
-        tokens.forEach(item => {
-            if (fulltemp.includes(item)) {
-                return;
-            } else {
-                fulltemp += item;
-            }
-        });
-        console.log(fulltemp);
-    }
+    tokens.push(tempString);
+    this.build();
+  }
+
+  build() {
+    tokens.forEach((item) => {
+      if (fulltemp.includes(item)) {
+
+      } else {
+        fulltemp += item;
+      }
+    });
+    console.log(fulltemp);
+  }
 }
 export default videEvent;

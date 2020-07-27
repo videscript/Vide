@@ -1,10 +1,11 @@
 // const path = require('path');
 import path from 'path';
 import fs from 'fs';
+
 const dJSON = require('dirty-json');
 const colors = require('colors');
 
-console.log('●'.blue + ' Reading config');
+console.log(`${'●'.blue} Reading config`);
 let executable: Function;
 const walkSync = (dir: string, filelist: Array<string> = []) => {
   fs.readdirSync(dir).forEach((file: string) => {
@@ -29,7 +30,7 @@ if (supported.length > 1) {
   throw 'Two videfiles detected expected one.';
 }
 let Config;
-const unproper: string = fs.readFileSync('./' + supported[0], 'utf-8');
+const unproper: string = fs.readFileSync(`./${supported[0]}`, 'utf-8');
 if (unproper.includes('use non-standard')) {
   const lex: Array<string> = unproper.split('\n');
   lex.shift();
@@ -39,22 +40,18 @@ if (unproper.includes('use non-standard')) {
       // let comment = tok.indexOf('//');
       lex.splice(num, 1);
     } else if (tok.includes('run {')) {
-      const endLine: Array<string> = lex.filter((i: any) => {
-        return i === '}';
-      });
+      const endLine: Array<string> = lex.filter((i: any) => i === '}');
       const end = lex.indexOf(endLine[0]);
-      const firstLine: Array<string> = lex.filter((i: any) => {
-        return i === 'run {';
-      })[0];
+      const firstLine: Array<string> = lex.filter((i: any) => i === 'run {')[0];
       const innerTokens = lex.slice(lex.indexOf(firstLine), end);
       innerTokens.splice(0, 1);
-      const final: Array<string> = innerTokens.map(item => item.trim());
+      const final: Array<string> = innerTokens.map((item) => item.trim());
       const render: string = final.join('\n');
       executable = new Function(render);
     } else {
       const func: Array<string> = tok.split(' ');
       if (func[0] === '') {
-        return;
+
       } else {
         const build: Record<string, any> = {
           func: func[0],

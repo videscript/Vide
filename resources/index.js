@@ -7,10 +7,8 @@
  * Under MIT License
  */
 
-'use strict';
-
 function _interopDefault(ex) {
-  return ex && typeof ex === 'object' && 'default' in ex ? ex['default'] : ex;
+  return ex && typeof ex === 'object' && 'default' in ex ? ex.default : ex;
 }
 
 const cssToReactNative = _interopDefault(require('css-to-react-native'));
@@ -30,9 +28,9 @@ function toProperty(name) {
 function toSelectors(name) {
   const names = name.split(',');
 
-  return names.map(name => {
+  return names.map((name) => {
     name = name.trim();
-    return '"' + name + '"';
+    return `"${name}"`;
   });
 }
 
@@ -74,12 +72,8 @@ function tokenizer(code) {
   if (token) tokens.push(token);
 
   return tokens
-    .map(token => {
-      return token.trim();
-    })
-    .filter(token => {
-      return token;
-    });
+    .map((token) => token.trim())
+    .filter((token) => token);
 }
 
 function convertoToJS(tokens) {
@@ -91,7 +85,7 @@ function convertoToJS(tokens) {
 
     actualItem = {
       originalValue: token,
-      selectors: selectors,
+      selectors,
       values: {},
     };
 
@@ -145,7 +139,7 @@ function convertoToJS(tokens) {
 
   let nextAction = readSelector;
   let i = 0;
-  tokens.forEach(token => {
+  tokens.forEach((token) => {
     i++;
     nextAction = nextAction(token);
   });
@@ -177,26 +171,24 @@ function renderItem(item) {
         propitem.value = propitem.value.replace(/'/gi, "\\'");
       }
       properties.push(
-        SPACE +
-          SPACE +
-          '"' +
-          propitem.name +
-          '": ' +
-          markup +
-          propitem.value +
+        `${SPACE
+          + SPACE
+        }"${
+          propitem.name
+        }": ${
           markup
+        }${propitem.value
+        }${markup}`,
       );
     }
   }
 
-  properties = properties.map(x => {
-    return SPACE + x;
-  });
+  properties = properties.map((x) => SPACE + x);
 
-  item.selectors.forEach(i => {
-    code.push(SPACE + i + ': {');
+  item.selectors.forEach((i) => {
+    code.push(`${SPACE + i}: {`);
     code.push(properties.join(',\n'));
-    code.push(SPACE + '}');
+    code.push(`${SPACE}}`);
   });
 
   return code.join('\n');
@@ -204,11 +196,11 @@ function renderItem(item) {
 
 function getRnCode(css) {
   const styles = {};
-  const code = eval('(' + convertoToJS(tokenizer(css)) + ')');
-  Object.keys(code).forEach(key => {
+  const code = eval(`(${convertoToJS(tokenizer(css))})`);
+  Object.keys(code).forEach((key) => {
     styles[key] = {};
     const arr = [];
-    Object.keys(code[key]).forEach(key2 => {
+    Object.keys(code[key]).forEach((key2) => {
       arr.push([kebabCase(key2), code[key][key2]]);
     });
     styles[key] = cssToReactNative(arr);
