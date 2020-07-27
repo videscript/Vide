@@ -13,9 +13,6 @@ jobs:
       matrix:
         node_version: ['11','13','14']
     steps:
-      - name: Node
-        with:
-          node-version: ${{ matrix.node_version }}
       - name: build
         run: |
           npm install
