@@ -19,5 +19,4 @@ jobs:
     steps:
       - name: remove testing
         run: |
-          echo $PWD
-          ls
+          rm -r $PWD/out/testing
