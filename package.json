@@ -9,7 +9,7 @@
   },
   "license": "ISC",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc && rm -r out/testing"
   },
   "devDependencies": {
     "@types/node": "^13.11.1",
