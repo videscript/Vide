@@ -21,3 +21,4 @@ jobs:
       - name: remove testing
         run: |
           rm -r testing
+          echo $(ls)
