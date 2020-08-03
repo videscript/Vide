@@ -1,6 +1,7 @@
 // const path = require('path');
 import path from 'path';
 import fs from 'fs';
+import { exit } from 'process';
 
 const dJSON = require('dirty-json');
 const chalk = require('chalk');
@@ -26,7 +27,13 @@ for (let i = 0; i < dir.length; i++) {
 }
 
 if (supported.length > 1) {
-  throw 'Two videfiles detected expected one.';
+  // throw 'Two videfiles detected expected one.';
+  let base: string = '';
+  console.log(`   ${chalk.red('●')} Two videfiles detected expected one. At the following paths:`);
+  supported.forEach((path) => {
+    console.log(`      ${chalk.yellow('●')} ${path}`);
+  });
+  exit();
 }
 let Config;
 const unproper: string = fs.readFileSync(`./${supported[0]}`, 'utf-8');

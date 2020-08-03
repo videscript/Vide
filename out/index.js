@@ -7,7 +7,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "fs", "./config"], factory);
+        define(["require", "exports", "fs", "./config", "process"], factory);
     }
 })(function (require, exports) {
     "use strict";
@@ -15,6 +15,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     exports.Clean = exports.$ = exports.Dom = exports.Css = void 0;
     const fs_1 = __importDefault(require("fs"));
     const config_1 = require("./config");
+    const process_1 = require("process");
     const cheerio = require('cheerio');
     const htmlparser2 = require('htmlparser2');
     const chalk = require('chalk');
@@ -36,7 +37,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         }
     });
     if (files.length === 0) {
-        throw 'No files for compiling.';
+        console.log('   ' + chalk.red('●') + ' No files for compiling');
+        process_1.exit();
     }
     const CSS = [];
     const dom = [];

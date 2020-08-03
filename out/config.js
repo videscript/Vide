@@ -7,7 +7,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "path", "fs"], factory);
+        define(["require", "exports", "path", "fs", "process"], factory);
     }
 })(function (require, exports) {
     "use strict";
@@ -16,6 +16,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     // const path = require('path');
     const path_1 = __importDefault(require("path"));
     const fs_1 = __importDefault(require("fs"));
+    const process_1 = require("process");
     const dJSON = require('dirty-json');
     const chalk = require('chalk');
     console.log(`${chalk.blue('●')} Reading config`);
@@ -40,7 +41,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         }
     }
     if (supported.length > 1) {
-        throw 'Two videfiles detected expected one.';
+        // throw 'Two videfiles detected expected one.';
+        let base = '';
+        console.log(`   ${chalk.red('●')} Two videfiles detected expected one. At the following paths:`);
+        supported.forEach((path) => {
+            console.log(`      ${chalk.yellow('●')} ${path}`);
+        });
+        process_1.exit();
     }
     let Config;
     const unproper = fs_1.default.readFileSync(`./${supported[0]}`, 'utf-8');

@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { config } from './config';
+import { exit } from 'process';
 
 const cheerio = require('cheerio');
 const htmlparser2 = require('htmlparser2');
@@ -23,7 +24,8 @@ hello.forEach((file) => {
   }
 });
 if (files.length === 0) {
-  throw 'No files for compiling.';
+  console.log('   ' + chalk.red('●') + ' No files for compiling');
+  exit();
 }
 const CSS: Array<object> = [];
 const dom: Array<object> = [];
