@@ -1,0 +1,1 @@
+"use strict";const parser=s=>s.match(new RegExp(/\$(\s*\w+\s*)\$/g));let string="my name is $name$ and I'm doing $f$";const found=parser(string);let parsed;found.forEach(s=>{parsed=string.replace(s,"hi")}),console.log(parsed);

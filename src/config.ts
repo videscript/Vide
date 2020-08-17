@@ -27,7 +27,6 @@ for (let i = 0; i < dir.length; i++) {
 }
 
 if (supported.length > 1) {
-  // throw 'Two videfiles detected expected one.';
   let base: string = '';
   console.log(`   ${chalk.red('●')} Two videfiles detected expected one. At the following paths:`);
   supported.forEach((path) => {
@@ -35,6 +34,7 @@ if (supported.length > 1) {
   });
   exit();
 }
+
 let Config;
 const unproper: string = fs.readFileSync(`./${supported[0]}`, 'utf-8');
 if (unproper.includes('use non-standard')) {

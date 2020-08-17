@@ -41,7 +41,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         }
     }
     if (supported.length > 1) {
-        // throw 'Two videfiles detected expected one.';
         let base = '';
         console.log(`   ${chalk.red('●')} Two videfiles detected expected one. At the following paths:`);
         supported.forEach((path) => {

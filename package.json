@@ -9,12 +9,13 @@
   },
   "license": "ISC",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc && gulp"
   },
   "devDependencies": {
     "@types/node": "^13.11.1",
     "@typescript-eslint/eslint-plugin": "^3.7.0",
     "babel-eslint": "^10.1.0",
+    "babel-minify-webpack-plugin": "^0.3.1",
     "eslint": "^7.5.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-airbnb-typescript": "^9.0.0",
@@ -24,9 +25,13 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^4.0.8",
+    "gulp": "^4.0.2",
+    "gulp-minify": "^3.1.0",
     "jshint": "^2.11.1",
     "prettier": "^2.0.5",
-    "typescript": "^3.9.5"
+    "typescript": "^3.9.5",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
   },
   "dependencies": {
     "@types/chalk": "^2.2.0",
@@ -40,6 +45,7 @@
     "mime": "^2.4.6",
     "ora": "^4.0.4",
     "path": "^0.12.7",
+    "rimraf": "^3.0.2",
     "transform-css-to-js": "^0.1.1",
     "typescript": "^3.9.5"
   }

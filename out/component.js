@@ -100,6 +100,9 @@ ${data.innerText}`;
                     const render = origin.replace(new RegExp(renderString, 'g'), inner);
                     fs_1.default.writeFileSync(path, render);
                 }
+                if (data.attribs.type == 'js' || data.attribs.type == 'js') {
+                    console.log('hi');
+                }
             }
         });
     });

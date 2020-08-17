@@ -1,0 +1,7 @@
+<Vide>
+h1 {
+    font-size: 40px;
+    fontFamily: 'sans-serif';
+}
+<h1>Hello world!</h1>
+</Vide>

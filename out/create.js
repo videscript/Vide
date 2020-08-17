@@ -1,7 +1,8 @@
 "use strict";
 const { ncp } = require('ncp');
 const chalk = require('chalk');
-const path = require('path').dirname(require?.main?.filename);
+//@ts-ignore
+const path = require('path').dirname(require.main.filename);
 const main = (args) => {
     const indexOf = args.indexOf('-create');
     const arg = args[indexOf + 1];

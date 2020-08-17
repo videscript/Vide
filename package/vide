@@ -1,0 +1,62 @@
+#!/usr/bin/env node
+
+const {exec} = require('child_process');
+const ora = require('ora');
+const colors = require('colors');
+const {fstat} = require('fs');
+const {dirname} = require('path');
+const fs = require('fs');
+const start = new Date();
+let args = process.argv;
+if (args.includes('-html')) {
+    const html = require('./bin/html');
+} else if (args.includes('-css')) {
+    const css = require('./bin/css');
+} else if (args.includes('-test')) {
+    const pos = args.indexOf('-test');
+    if (args[pos + 1] == 'router') {
+        const router = require('./bin/extensions/backend-router/route');
+    } else if (args[pos + 1] == 'serve') {
+        const serve = require('./bin/extensions/backend-router/serve');
+    }
+} else if (args.includes('-no-verbose')) {
+    const throbber = ora({
+        spinner: {
+            frames: [
+                'Compiling .',
+                'Compiling ..',
+                'Compiling ...',
+                'Compiling ....',
+            ],
+            interval: 200, // Optional
+        },
+    }).start();
+    console.log = () => {};
+    const config = require('./bin/config');
+    const css = require('./bin/css');
+    const components = require('./bin/component');
+    const html = require('./bin/html');
+    const jsParser = require('./bin/script-parser');
+    throbber.stop();
+} else if (args.includes('-create')) {
+    const create = require('./bin/create.js')(args);
+} else {
+    const config = require('./bin/config');
+    const css = require('./bin/css');
+    const components = require('./bin/component');
+    const html = require('./bin/html');
+    const jsParser = require('./bin/script-parser');
+
+    if (config.config.router == 'true') {
+        const router = require('./bin/extensions/backend-router/route');
+        const serve = require('./bin/extensions/backend-router/serve');
+    }
+    if (config.run != undefined) {
+        console.log('');
+        config.run();
+        console.log('');
+    }
+}
+
+let end = new Date() - start;
+console.info('Execution time: %dms', end);

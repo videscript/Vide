@@ -1,6 +1,7 @@
 const { ncp } = require('ncp');
 const chalk = require('chalk');
-const path: string = require('path').dirname(require?.main?.filename);
+//@ts-ignore
+const path: string = require('path').dirname(require.main.filename);
 
 const main = (args: Array<string>) => {
   const indexOf: number = args.indexOf('-create');
