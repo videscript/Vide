@@ -23,8 +23,7 @@ const { children } = router('Router').get()[0];
 
 children.forEach((element: Record<string, any>) => {
   const route: Record<string, any> = element.children;
-  if (route == undefined) {
-  } else if (route[0] === undefined) {
+  if (route[0] === undefined) {
     if (element.attribs.path === '*') {
       console.log(`${chalk.blue('●')}    built route: ${element.attribs.type}`);
     } else {
